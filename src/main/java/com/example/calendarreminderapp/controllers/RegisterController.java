@@ -1,6 +1,6 @@
-package controllers;
+package com.example.calendarreminderapp.controllers;
 
-import database.Database;
+import com.example.calendarreminderapp.database.Database;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

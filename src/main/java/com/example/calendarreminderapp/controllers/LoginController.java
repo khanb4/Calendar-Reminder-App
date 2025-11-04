@@ -1,8 +1,13 @@
-package controllers;
+package com.example.calendarreminderapp.controllers;
 
-import database.Database;
+import com.example.calendarreminderapp.database.Database;
+
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,7 +28,7 @@ public class LoginController {
     @FXML
     public void initialize() {
         loginButton.setOnAction(e -> login());
-        registerButton.setOnAction(e -> goToRegister());
+        registerButton.setOnAction(e -> switchToRegister());
     }
 
     private void login() {
@@ -31,11 +36,16 @@ public class LoginController {
         String password = passwordField.getText();
 
         if (username.isEmpty() || password.isEmpty()) {
-            messageLabel.setText("Please fill in all fields");
+            messageLabel.setText("⚠ Please fill in all fields");
             return;
         }
 
         try (Connection conn = Database.getConnection()) {
+            if (conn == null) {
+                messageLabel.setText("❌ Cannot connect to database");
+                return;
+            }
+
             String query = "SELECT * FROM users WHERE username = ? AND password = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, username);
@@ -44,21 +54,23 @@ public class LoginController {
 
             if (rs.next()) {
                 messageLabel.setStyle("-fx-text-fill: green;");
-                messageLabel.setText("Login successful!");
+                messageLabel.setText("✅ Login successful!");
             } else {
+                messageLabel.setStyle("-fx-text-fill: red;");
                 messageLabel.setText("Invalid username or password");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            messageLabel.setText("Error connecting to database");
+            messageLabel.setText("⚠ Error connecting to database");
         }
     }
 
-    private void goToRegister() {
+    private void switchToRegister() {
         try {
-            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/register.fxml"));
-            javafx.scene.Parent root = loader.load();
-            usernameField.getScene().setRoot(root);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/calendarreminderapp/register.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            stage.setScene(new Scene(root, 420, 420));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

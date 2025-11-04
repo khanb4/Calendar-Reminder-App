@@ -1,4 +1,5 @@
-package database;
+package com.example.calendarreminderapp.database;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -4,7 +4,9 @@ module com.example.calendarreminderapp {
     requires java.sql;
 
     opens com.example.calendarreminderapp to javafx.fxml;
-    opens controllers to javafx.fxml;
+    opens com.example.calendarreminderapp.controllers to javafx.fxml;
+    opens com.example.calendarreminderapp.database to javafx.fxml;
+
     exports com.example.calendarreminderapp;
-    exports controllers;
+    exports com.example.calendarreminderapp.controllers;
 }
