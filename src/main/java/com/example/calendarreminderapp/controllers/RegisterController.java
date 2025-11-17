@@ -1,15 +1,18 @@
 package com.example.calendarreminderapp.controllers;
 
-import com.example.calendarreminderapp.database.Database;
+import com.example.calendarreminderapp.database.UserRepository;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 public class RegisterController {
 
@@ -20,49 +23,72 @@ public class RegisterController {
     private PasswordField passwordField;
 
     @FXML
+    private PasswordField confirmPasswordField;
+
+    @FXML
     private Label messageLabel;
 
     @FXML
     private Button registerButton;
 
     @FXML
-    private Button backButton;
+    private Button backToLoginButton;
+
+    private UserRepository userRepository;
 
     @FXML
     public void initialize() {
+        try {
+            userRepository = new UserRepository();
+        } catch (IOException e) {
+            e.printStackTrace();
+            messageLabel.setText("❌ Error initializing database");
+            return;
+        }
+
         registerButton.setOnAction(e -> registerUser());
+        backToLoginButton.setOnAction(e -> goBackToLogin());
     }
 
     private void registerUser() {
         String username = usernameField.getText().trim();
         String password = passwordField.getText().trim();
+        String confirm  = confirmPasswordField.getText().trim();
 
-        if (username.isEmpty() || password.isEmpty()) {
-            messageLabel.setText("❌ Please enter username and password");
+        if (username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
+            messageLabel.setText("❌ Please fill in all fields");
             return;
         }
 
-        // Get DB connection
-        try (Connection conn = Database.getConnection()) {
-            if (conn == null) {
-                messageLabel.setText("❌ Error connecting to database");
-                return;
-            }
+        if (!password.equals(confirm)) {
+            messageLabel.setText("❌ Passwords do not match");
+            return;
+        }
 
-            // Insert user
-            String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, username);
-            stmt.setString(2, password);
-            stmt.executeUpdate();
+        try {
+            userRepository.createUser(username, password);
 
             messageLabel.setText("✅ Registration successful!");
             usernameField.clear();
             passwordField.clear();
+            confirmPasswordField.clear();
 
-        } catch (SQLException ex) {
+        } catch (ExecutionException | InterruptedException ex) {
             ex.printStackTrace();
             messageLabel.setText("❌ Registration failed!");
+        }
+    }
+
+    private void goBackToLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/example/calendarreminderapp/login.fxml")
+            );
+            Parent root = loader.load();
+            Stage stage = (Stage) backToLoginButton.getScene().getWindow();
+            stage.setScene(new Scene(root, 420, 420));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

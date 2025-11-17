@@ -29,11 +29,11 @@
             <version>21.0.6</version>
         </dependency>
 
-        <!-- MySQL Connector -->
+        <!-- Firebase Admin SDK (Cloud Firestore) -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>9.2.0</version>
         </dependency>
 
         <!-- JUnit Testing -->
@@ -73,6 +73,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
+                            <!-- Non-modular JavaFX app main class -->
                             <mainClass>com.example.calendarreminderapp.HelloApplication</mainClass>
                         </configuration>
                     </execution>

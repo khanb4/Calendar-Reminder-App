@@ -1,8 +1,38 @@
-# Default ignored files
+# ----------------------------
+# IntelliJ IDEA
+# ----------------------------
+.idea/
+*.iml
+
+# Local IntelliJ config
 /shelf/
-/workspace.xml
-# Editor-based HTTP Client requests
+workspace.xml
 /httpRequests/
-# Datasource local storage ignored files
-/dataSources/
-/dataSources.local.xml
+dataSources/
+dataSources.local.xml
+
+# ----------------------------
+# Maven build output
+# ----------------------------
+target/
+
+# ----------------------------
+# Java & OS junk
+# ----------------------------
+*.log
+*.class
+.DS_Store
+Thumbs.db
+
+# ----------------------------
+# Firebase private keys
+# ----------------------------
+serviceAccountKey.json
+
+# Ignore all JSON at root (optional extra safety)
+# *.json
+
+# ----------------------------
+# Other caches
+# ----------------------------
+*.DS_Store
