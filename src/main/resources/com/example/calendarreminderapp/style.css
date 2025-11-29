@@ -6,6 +6,7 @@
     -fx-background-insets: 0;
     -fx-background-size: 400% 400%;
     -fx-animation: gradientMove 20s ease infinite;
+
 }
 
 @keyframes gradientMove {
@@ -24,6 +25,7 @@
     -fx-min-width: 500;
     -fx-pref-width: 550;
     -fx-backdrop-filter: blur(20px);
+    -fx-cursor: hand;
 }
 
 
@@ -77,3 +79,15 @@
     -fx-text-fill: #ff6666;
     -fx-font-size: 13px;
 }
+
+.calender-view {
+    -fx-background-color: rgba(0,0,0,0.4);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-width: 5;
+    -fx-border-color: rgba(29,155,240,0.1);
+    -fx-background-radius: 6;
+    -fx-padding: 10 24;
+    -fx-cursor: hand;
+}
+
