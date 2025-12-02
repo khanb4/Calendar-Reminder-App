@@ -1,93 +1,202 @@
+/* ===========================
+   GLOBAL LAYOUT / BACKGROUND
+   =========================== */
+
 .root-pane {
-    -fx-background-color: radial-gradient(center 50% 50%, radius 150%, #1b1e23, #0e0f12);
-    //-fx-background-color: linear-gradient(to bottom right, #0f1115, #1a1d21, #14171a);
-    -fx-font-family: "Segoe UI", sans-serif;
-    -fx-background-radius: 0;
-    -fx-background-insets: 0;
-    -fx-background-size: 400% 400%;
-    -fx-animation: gradientMove 20s ease infinite;
-
+    -fx-background-color: #000000;  /* solid black */
 }
 
-@keyframes gradientMove {
-    0% { -fx-background-position: 0% 50%; }
-    50% { -fx-background-position: 100% 50%; }
-    100% { -fx-background-position: 0% 50%; }
-}
-
-
+/* Main centered container (login/register card, etc.) */
 .container {
-    -fx-background-color: rgba(30, 33, 37, 0.8);
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.45), 25, 0, 0, 10);
-    -fx-background-radius: 25;
-    -fx-padding: 50;
-    -fx-max-width: 600;
-    -fx-min-width: 500;
-    -fx-pref-width: 550;
-    -fx-backdrop-filter: blur(20px);
-    -fx-cursor: hand;
+    -fx-background-color: #000000;
+    -fx-padding: 24;
+    -fx-spacing: 16;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-border-color: #2f3336;
 }
 
+/* Generic labels */
+.label {
+    -fx-text-fill: #e7e9ea;  /* X text color */
+}
 
+/* Title labels (e.g., "Calendar Reminder App") */
 .title {
-    -fx-text-fill: white;
-    -fx-font-size: 30px;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 22px;
     -fx-font-weight: bold;
-    -fx-text-alignment: center;
-    -fx-effect: dropshadow(gaussian, rgba(29,155,240,0.7), 10, 0, 0, 0);
 }
 
-.text-field, .password-field {
-    -fx-background-color: #2c3035;
-    -fx-text-fill: white;
-    -fx-prompt-text-fill: #888;
-    -fx-background-radius: 12;
-    -fx-padding: 10;
-    -fx-border-color: transparent;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 6, 0, 0, 2);
+/* Message label under inputs */
+.message-label {
+    -fx-text-fill: #e7e9ea;
+    -fx-font-size: 12px;
 }
 
+/* ===========================
+   BUTTONS (X-like)
+   =========================== */
+
+.button,
 .button-primary {
-    -fx-background-color: #1d9bf0;
-    -fx-text-fill: white;
+    -fx-background-color: #1d9bf0;   /* X blue */
+    -fx-text-fill: #ffffff;
     -fx-font-weight: bold;
-    -fx-background-radius: 12;
-    -fx-padding: 10 24;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(29,155,240,0.5), 10, 0, 0, 0);
-    -fx-transition: all 0.3s;
+    -fx-background-radius: 999;      /* pill-like */
+    -fx-border-radius: 999;
+    -fx-border-color: transparent;
+    -fx-padding: 8 20 8 20;
 }
+
+.button:hover,
 .button-primary:hover {
     -fx-background-color: #1a8cd8;
-    -fx-effect: dropshadow(gaussian, rgba(29,155,240,0.8), 20, 0, 0, 0);
 }
 
+/* Secondary buttons – outline style */
 .button-secondary {
     -fx-background-color: transparent;
-    -fx-border-color: #1d9bf0;
-    -fx-border-radius: 12;
-    -fx-text-fill: #1d9bf0;
-    -fx-padding: 8 20;
-    -fx-cursor: hand;
-}
-.button-secondary:hover {
-    -fx-background-color: rgba(29,155,240,0.1);
-    -fx-effect: dropshadow(gaussian, rgba(29,155,240,0.4), 10, 0, 0, 0);
-}
-
-.message-label {
-    -fx-text-fill: #ff6666;
-    -fx-font-size: 13px;
-}
-
-.calender-view {
-    -fx-background-color: rgba(0,0,0,0.4);
-    -fx-text-fill: white;
+    -fx-text-fill: #e7e9ea;
     -fx-font-weight: bold;
-    -fx-border-width: 5;
-    -fx-border-color: rgba(29,155,240,0.1);
-    -fx-background-radius: 6;
-    -fx-padding: 10 24;
-    -fx-cursor: hand;
+    -fx-border-color: #536471;
+    -fx-border-radius: 999;
+    -fx-background-radius: 999;
+    -fx-padding: 8 20 8 20;
 }
 
+.button-secondary:hover {
+    -fx-background-color: #15181c;
+}
+
+/* ===========================
+   TEXTFIELDS / TEXTAREAS
+   (login/register sized similar to X)
+   =========================== */
+
+.text-field,
+.password-field,
+.text-area,
+.text-area .content {
+    -fx-background-color: #000000;
+    -fx-text-fill: #e7e9ea;
+    -fx-prompt-text-fill: #71767b;
+    -fx-border-color: #2f3336;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 6 10 6 10;
+    -fx-pref-width: 260;   /* keep boxes compact, not super wide */
+}
+
+.text-field:focused,
+.password-field:focused,
+.text-area:focused {
+    -fx-border-color: #1d9bf0;
+}
+
+/* For generic text-input controls */
+.text-input {
+    -fx-control-inner-background: #000000;
+    -fx-text-fill: #e7e9ea;
+}
+
+/* ===========================
+   COMBOBOXES (hour/minute/AMPM)
+   =========================== */
+
+.combo-box,
+.combo-box-base {
+    -fx-background-color: #000000;
+    -fx-border-color: #2f3336;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-text-fill: #e7e9ea;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #e7e9ea;
+    -fx-background-color: #000000;
+}
+
+/* ===========================
+   SCROLLPANE & LISTVIEW (dark)
+   =========================== */
+
+.scroll-pane,
+.scroll-pane .viewport {
+    -fx-background-color: #000000;
+}
+
+.list-view {
+    -fx-background-color: #000000;
+    -fx-control-inner-background: #000000;
+    -fx-text-fill: #e7e9ea;
+    -fx-border-color: #2f3336;
+}
+
+.list-cell {
+    -fx-text-fill: #e7e9ea;
+    -fx-background-color: #000000;
+    -fx-padding: 6 8 6 8;
+}
+
+.list-cell:filled:selected,
+.list-cell:filled:selected:focused {
+    -fx-background-color: #1a8cd8;
+}
+
+/* Scroll bars */
+.scroll-bar {
+    -fx-background-color: #000000;
+}
+.scroll-bar .thumb {
+    -fx-background-color: #2f3336;
+}
+
+/* ===========================
+   CALENDAR-SPECIFIC STYLES
+   =========================== */
+
+/* header row: Mon Tue Wed... */
+.calendar-header {
+    -fx-text-fill: #e7e9ea;
+    -fx-font-weight: bold;
+    -fx-padding: 4 0 4 0;
+}
+
+/* day squares */
+.day-cell {
+    -fx-background-color: #000000;
+    -fx-border-color: #2f3336;
+    -fx-border-width: 1;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.day-cell:hover {
+    -fx-background-color: #15181c;
+}
+
+/* day number text */
+.calendar-day-number {
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+
+/* selected day */
+.calendar-day-selected {
+    -fx-background-color: #15181c;
+    -fx-border-color: #1d9bf0;
+    -fx-border-width: 2;
+}
+
+/* reminder icon / count inside day cell */
+.calendar-reminder-icon {
+    -fx-text-fill: #1d9bf0;    /* blue accent */
+    -fx-font-size: 10px;
+}
+
+/* “Add Reminder”, etc., labels in calendar view */
+.bottom-pane-label {
+    -fx-text-fill: #e7e9ea;
+}

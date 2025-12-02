@@ -1,7 +1,6 @@
 package com.example.calendarreminderapp.controllers;
 
 import com.example.calendarreminderapp.database.UserRepository;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,9 +31,6 @@ public class LoginController {
     @FXML
     private Button registerButton;
 
-    @FXML
-    private Button dashboardButton;
-
     private UserRepository userRepository;
 
     @FXML
@@ -49,8 +45,6 @@ public class LoginController {
 
         loginButton.setOnAction(e -> login());
         registerButton.setOnAction(e -> switchToRegister());
-        dashboardButton.setOnAction(e -> switchToDashboard());
-
     }
 
     private void login() {
@@ -69,7 +63,7 @@ public class LoginController {
             if (valid) {
                 messageLabel.setStyle("-fx-text-fill: green;");
                 messageLabel.setText("✅ Login successful!");
-                switchToDashboard();
+                openDashboard(username);
             } else {
                 messageLabel.setStyle("-fx-text-fill: red;");
                 messageLabel.setText("Invalid username or password");
@@ -81,6 +75,23 @@ public class LoginController {
         }
     }
 
+    private void openDashboard(String username) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/example/calendarreminderapp/dashboard.fxml")
+            );
+            Parent root = loader.load();
+
+            DashboardController controller = loader.getController();
+            controller.setCurrentUser(username);
+
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            stage.setScene(new Scene(root, 800, 600));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void switchToRegister() {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -88,19 +99,6 @@ public class LoginController {
             );
             Parent root = loader.load();
             Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.setScene(new Scene(root, 420, 420));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private void switchToDashboard(){
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/com/example/calendarreminderapp/dashboard.fxml")
-            );
-            Parent root = loader.load();
-            Stage stage = (Stage) dashboardButton.getScene().getWindow();
             stage.setScene(new Scene(root, 420, 420));
         } catch (IOException ex) {
             ex.printStackTrace();

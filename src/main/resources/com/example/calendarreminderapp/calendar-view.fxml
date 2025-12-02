@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.calendarreminderapp.controllers.CalendarController"
+            stylesheets="@style.css">
+
+    <!-- TOP: month header + nav + back -->
+    <top>
+        <HBox spacing="10" alignment="CENTER" BorderPane.alignment="CENTER">
+            <!-- use &lt; and &gt; for arrow text -->
+            <Button text="&lt;" onAction="#handlePrevMonth"/>
+            <Label fx:id="monthYearLabel" text="January 2024" styleClass="title"/>
+            <Button text="&gt;" onAction="#handleNextMonth"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button fx:id="backButton" text="Back" onAction="#handleBack"/>
+        </HBox>
+    </top>
+
+    <!-- CENTER: calendar + selected date, scrollable -->
+    <center>
+        <ScrollPane fitToWidth="true"
+                    hbarPolicy="NEVER"
+                    vbarPolicy="AS_NEEDED">
+            <content>
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+
+                    <GridPane fx:id="calendarGrid" hgap="5" vgap="5"/>
+                    <Label fx:id="selectedDateLabel" text="Selected:"/>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+    <!-- BOTTOM: Add Reminder section, THEN the (small) list -->
+    <bottom>
+        <VBox spacing="8">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <!-- Add reminder UI -->
+            <Label text="Add Reminder"/>
+            <TextField fx:id="titleField" promptText="Title"/>
+
+            <HBox spacing="5">
+                <ComboBox fx:id="hourCombo" prefWidth="70.0"/>
+                <ComboBox fx:id="minuteCombo" prefWidth="80.0"/>
+                <ComboBox fx:id="ampmCombo" prefWidth="80.0"/>
+            </HBox>
+
+            <TextArea fx:id="descriptionArea"
+                      promptText="Description"
+                      prefRowCount="2"/>
+
+            <Button fx:id="addReminderButton" text="Save Reminder"/>
+
+            <!-- Small, neat list of reminders -->
+            <Label text="Reminders for this date:"/>
+            <ListView fx:id="reminderListView"
+                      prefHeight="140.0"/>
+        </VBox>
+    </bottom>
+
+</BorderPane>

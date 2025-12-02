@@ -1,48 +1,74 @@
 package com.example.calendarreminderapp.controllers;
 
-import com.example.calendarreminderapp.database.UserRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.util.concurrent.ExecutionException;
 
 public class DashboardController {
-    @FXML
-    private Button calenderButton;
 
     @FXML
-    private AnchorPane anchorPane;
+    private Label welcomeLabel;
 
-    public void initialize()
-    {
-        calenderButton.setOnAction(e -> switchToCalender());
+    @FXML
+    private Button reminderButton;
+
+    @FXML
+    private Button calendarButton;
+
+    private String currentUser;
+
+    // Called from LoginController after successful login
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
+        if (welcomeLabel != null && currentUser != null) {
+            welcomeLabel.setText("Welcome, " + currentUser + "!");
+        }
     }
 
-    public void switchToCalender()
-    {
+    @FXML
+    public void initialize() {
+        if (calendarButton != null) {
+            calendarButton.setOnAction(e -> handleCalendarView());
+        }
+    }
+
+    @FXML
+    private void handleCalendarView() {
+        openCalendarView();
+    }
+
+    @FXML
+    private void handleReminderView() {
+        System.out.println("Reminder view not implemented yet.");
+    }
+
+    private void openCalendarView() {
+        // DEBUG PRINT — MUST SHOW WHEN BUTTON IS CLICKED
+        System.out.println("DEBUG: Opening calendar view for user: " + currentUser);
+
         try {
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/com/example/calendarreminderapp/calender.fxml")
-        );
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/example/calendarreminderapp/calendar-view.fxml")
+            );
+
             Parent root = loader.load();
-            Stage stage = (Stage) calenderButton.getScene().getWindow();
-            stage.setScene(new Scene(root, 420, 420));
-    } catch (IOException ex) {
-        ex.printStackTrace();
+
+            // Pass current user into CalendarController
+            CalendarController controller = loader.getController();
+            controller.setCurrentUser(currentUser);
+
+            // Switch scenes
+            Stage stage = (Stage) calendarButton.getScene().getWindow();
+            stage.setScene(new Scene(root, 900, 700));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    }
-
-
-
 }
