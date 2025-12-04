@@ -20,7 +20,7 @@
         </HBox>
     </top>
 
-    <!-- CENTER: whole content inside a ScrollPane so the page can scroll -->
+    <!-- CENTER -->
     <center>
         <ScrollPane fitToWidth="true"
                     pannable="true"
@@ -32,9 +32,10 @@
                         <Insets top="10" right="10" bottom="10" left="10"/>
                     </padding>
 
-                    <!-- TOP ROW: three columns -->
+                    <!-- MAIN CONTENT: Calendar + Upcoming Reminders -->
                     <HBox spacing="20">
-                        <!-- LEFT: calendar + selected date -->
+
+                        <!-- LEFT: Calendar -->
                         <VBox spacing="10">
                             <GridPane fx:id="calendarGrid" hgap="6" vgap="6"/>
                             <Label fx:id="selectedDateLabel"
@@ -42,20 +43,11 @@
                                    styleClass="bottom-pane-label"/>
                         </VBox>
 
-                        <!-- MIDDLE: reminders for selected date -->
-                        <VBox spacing="8" HBox.hgrow="ALWAYS">
-                            <Label text="Reminders for this date:"
+                        <!-- RIGHT: Upcoming Reminders -->
+                        <VBox spacing="10" HBox.hgrow="ALWAYS">
+                            <Label text="Upcoming Reminders"
                                    styleClass="bottom-pane-label"/>
-                            <ListView fx:id="reminderListView"
-                                      prefHeight="260.0"
-                                      VBox.vgrow="ALWAYS"/>
-                        </VBox>
-
-                        <!-- RIGHT: reminders for this month (stretches to the right) -->
-                        <VBox spacing="8" HBox.hgrow="ALWAYS">
-                            <Label text="Reminders this month:"
-                                   styleClass="bottom-pane-label"/>
-                            <ListView fx:id="monthSummaryListView"
+                            <ListView fx:id="upcomingRemindersList"
                                       VBox.vgrow="ALWAYS"
                                       maxWidth="1.7976931348623157E308"/>
                         </VBox>

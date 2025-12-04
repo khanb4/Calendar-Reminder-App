@@ -87,6 +87,15 @@ public class ReminderRepository {
         }
         return result;
     }
+    public List<Reminder> getUpcomingReminders(String username) throws ExecutionException, InterruptedException {
+        ApiFuture<QuerySnapshot> future = remindersRef
+                .whereEqualTo("username", username)
+                .orderBy("date")
+                .orderBy("time")
+                .get();
+
+        return future.get().toObjects(Reminder.class);
+    }
 
 }
 
