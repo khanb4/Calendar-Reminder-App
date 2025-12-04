@@ -85,7 +85,7 @@
     -fx-border-radius: 8;
     -fx-background-radius: 8;
     -fx-padding: 6 10 6 10;
-    -fx-pref-width: 260;   /* keep boxes compact, not super wide */
+    -fx-pref-width: 260;   /* compact width for login/register */
 }
 
 .text-field:focused,
@@ -130,9 +130,12 @@
 .list-view {
     -fx-background-color: #000000;
     -fx-control-inner-background: #000000;
-    -fx-text-fill: #e7e9ea;
     -fx-border-color: #2f3336;
+    -fx-border-width: 1;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
 }
+
 
 .list-cell {
     -fx-text-fill: #e7e9ea;
@@ -157,6 +160,19 @@
    CALENDAR-SPECIFIC STYLES
    =========================== */
 
+/* Top toolbar (month + arrows + back) */
+.calendar-toolbar {
+    -fx-padding: 10 16 10 16;
+    -fx-background-color: #000000;
+    -fx-border-color: #2f3336;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* Center main calendar container */
+.calendar-main {
+    -fx-background-color: #000000;
+}
+
 /* header row: Mon Tue Wed... */
 .calendar-header {
     -fx-text-fill: #e7e9ea;
@@ -171,7 +187,14 @@
     -fx-border-width: 1;
     -fx-background-radius: 8;
     -fx-border-radius: 8;
+
+    /* bigger square cells */
+    -fx-pref-width: 100;
+    -fx-pref-height: 90;
+    -fx-min-width: 100;
+    -fx-min-height: 90;
 }
+
 
 .day-cell:hover {
     -fx-background-color: #15181c;
@@ -190,13 +213,30 @@
     -fx-border-width: 2;
 }
 
-/* reminder icon / count inside day cell */
+/* reminder icon / count inside day cell
+   (used by controller; label has styleClass "calendar-reminder-dot") */
+.calendar-reminder-dot,
 .calendar-reminder-icon {
     -fx-text-fill: #1d9bf0;    /* blue accent */
     -fx-font-size: 10px;
 }
 
+/* Selected date label under the grid */
+.calendar-selected-label {
+    -fx-text-fill: #e7e9ea;
+    -fx-font-size: 12px;
+}
+
+/* Bottom panel (Add Reminder + list) */
+.calendar-bottom {
+    -fx-background-color: #000000;
+    -fx-border-color: #2f3336;
+    -fx-border-width: 1 0 0 0;
+}
+
 /* “Add Reminder”, etc., labels in calendar view */
 .bottom-pane-label {
     -fx-text-fill: #e7e9ea;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
 }

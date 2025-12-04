@@ -6,66 +6,83 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.calendarreminderapp.controllers.CalendarController"
+            styleClass="root-pane"
             stylesheets="@style.css">
 
     <!-- TOP: month header + nav + back -->
     <top>
         <HBox spacing="10" alignment="CENTER" BorderPane.alignment="CENTER">
-            <!-- use &lt; and &gt; for arrow text -->
-            <Button text="&lt;" onAction="#handlePrevMonth"/>
-            <Label fx:id="monthYearLabel" text="January 2024" styleClass="title"/>
-            <Button text="&gt;" onAction="#handleNextMonth"/>
+            <Button text="◀" onAction="#handlePrevMonth"/>
+            <Label fx:id="monthYearLabel" text="December 2025" styleClass="title"/>
+            <Button text="▶" onAction="#handleNextMonth"/>
             <Pane HBox.hgrow="ALWAYS"/>
             <Button fx:id="backButton" text="Back" onAction="#handleBack"/>
         </HBox>
     </top>
 
-    <!-- CENTER: calendar + selected date, scrollable -->
+    <!-- CENTER: whole content inside a ScrollPane so the page can scroll -->
     <center>
         <ScrollPane fitToWidth="true"
+                    pannable="true"
                     hbarPolicy="NEVER"
                     vbarPolicy="AS_NEEDED">
             <content>
-                <VBox spacing="10">
+                <VBox spacing="20">
                     <padding>
                         <Insets top="10" right="10" bottom="10" left="10"/>
                     </padding>
 
-                    <GridPane fx:id="calendarGrid" hgap="5" vgap="5"/>
-                    <Label fx:id="selectedDateLabel" text="Selected:"/>
+                    <!-- TOP ROW: three columns -->
+                    <HBox spacing="20">
+                        <!-- LEFT: calendar + selected date -->
+                        <VBox spacing="10">
+                            <GridPane fx:id="calendarGrid" hgap="6" vgap="6"/>
+                            <Label fx:id="selectedDateLabel"
+                                   text="Selected:"
+                                   styleClass="bottom-pane-label"/>
+                        </VBox>
+
+                        <!-- MIDDLE: reminders for selected date -->
+                        <VBox spacing="8" HBox.hgrow="ALWAYS">
+                            <Label text="Reminders for this date:"
+                                   styleClass="bottom-pane-label"/>
+                            <ListView fx:id="reminderListView"
+                                      prefHeight="260.0"
+                                      VBox.vgrow="ALWAYS"/>
+                        </VBox>
+
+                        <!-- RIGHT: reminders for this month (stretches to the right) -->
+                        <VBox spacing="8" HBox.hgrow="ALWAYS">
+                            <Label text="Reminders this month:"
+                                   styleClass="bottom-pane-label"/>
+                            <ListView fx:id="monthSummaryListView"
+                                      VBox.vgrow="ALWAYS"
+                                      maxWidth="1.7976931348623157E308"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- BOTTOM: Add Reminder form -->
+                    <VBox spacing="8">
+                        <Label text="Add Reminder" styleClass="bottom-pane-label"/>
+
+                        <TextField fx:id="titleField" promptText="Title"/>
+
+                        <HBox spacing="5">
+                            <ComboBox fx:id="hourCombo"  prefWidth="70.0"/>
+                            <ComboBox fx:id="minuteCombo" prefWidth="80.0"/>
+                            <ComboBox fx:id="ampmCombo"  prefWidth="80.0"/>
+                        </HBox>
+
+                        <TextArea fx:id="descriptionArea"
+                                  promptText="Description"
+                                  prefRowCount="2"/>
+
+                        <Button fx:id="addReminderButton" text="Save Reminder"/>
+                    </VBox>
+
                 </VBox>
             </content>
         </ScrollPane>
     </center>
-
-    <!-- BOTTOM: Add Reminder section, THEN the (small) list -->
-    <bottom>
-        <VBox spacing="8">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-
-            <!-- Add reminder UI -->
-            <Label text="Add Reminder"/>
-            <TextField fx:id="titleField" promptText="Title"/>
-
-            <HBox spacing="5">
-                <ComboBox fx:id="hourCombo" prefWidth="70.0"/>
-                <ComboBox fx:id="minuteCombo" prefWidth="80.0"/>
-                <ComboBox fx:id="ampmCombo" prefWidth="80.0"/>
-            </HBox>
-
-            <TextArea fx:id="descriptionArea"
-                      promptText="Description"
-                      prefRowCount="2"/>
-
-            <Button fx:id="addReminderButton" text="Save Reminder"/>
-
-            <!-- Small, neat list of reminders -->
-            <Label text="Reminders for this date:"/>
-            <ListView fx:id="reminderListView"
-                      prefHeight="140.0"/>
-        </VBox>
-    </bottom>
 
 </BorderPane>

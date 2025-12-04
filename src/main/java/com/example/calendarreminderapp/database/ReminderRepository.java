@@ -7,6 +7,8 @@ import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 
+import java.time.YearMonth;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -59,4 +61,32 @@ public class ReminderRepository {
         }
         return result;
     }
+
+    // NEW: all reminders for the whole month
+    public List<Reminder> getRemindersForMonth(String username, YearMonth yearMonth)
+            throws ExecutionException, InterruptedException {
+
+        String start = yearMonth.atDay(1).toString();        // e.g. 2025-12-01
+        String end   = yearMonth.atEndOfMonth().toString();  // e.g. 2025-12-31
+
+        // Get all reminders for this user, then filter by date here
+        Query query = remindersRef.whereEqualTo("username", username);
+
+        ApiFuture<QuerySnapshot> future = query.get();
+        QuerySnapshot snapshot = future.get();
+
+        List<Reminder> result = new ArrayList<>();
+        for (QueryDocumentSnapshot doc : snapshot.getDocuments()) {
+            Reminder reminder = doc.toObject(Reminder.class);
+            String dateStr = reminder.getDate();
+            if (dateStr != null &&
+                    dateStr.compareTo(start) >= 0 &&
+                    dateStr.compareTo(end)   <= 0) {
+                result.add(reminder);
+            }
+        }
+        return result;
+    }
+
 }
+
