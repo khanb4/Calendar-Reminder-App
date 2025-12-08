@@ -16,20 +16,11 @@ import java.util.concurrent.ExecutionException;
 
 public class LoginController {
 
-    @FXML
-    private TextField usernameField;
-
-    @FXML
-    private PasswordField passwordField;
-
-    @FXML
-    private Label messageLabel;
-
-    @FXML
-    private Button loginButton;
-
-    @FXML
-    private Button registerButton;
+    @FXML private TextField usernameField;
+    @FXML private PasswordField passwordField;
+    @FXML private Button loginButton;
+    @FXML private Button registerButton;
+    @FXML private Label messageLabel;
 
     private UserRepository userRepository;
 
@@ -39,56 +30,54 @@ public class LoginController {
             userRepository = new UserRepository();
         } catch (IOException e) {
             e.printStackTrace();
-            messageLabel.setText("❌ Error initializing database");
-            return;
+            if (messageLabel != null) {
+                messageLabel.setText("Error connecting to database.");
+            }
         }
 
-        loginButton.setOnAction(e -> login());
+        loginButton.setOnAction(e -> handleLogin());
         registerButton.setOnAction(e -> switchToRegister());
     }
 
-    private void login() {
-        String username = usernameField.getText();
+    private void handleLogin() {
+        String username = usernameField.getText().trim();
         String password = passwordField.getText();
 
         if (username.isEmpty() || password.isEmpty()) {
-            messageLabel.setStyle("-fx-text-fill: red;");
-            messageLabel.setText("⚠ Please fill in all fields");
+            messageLabel.setText("Please enter username and password.");
             return;
         }
 
         try {
-            boolean valid = userRepository.validateUser(username, password);
-
-            if (valid) {
-                messageLabel.setStyle("-fx-text-fill: green;");
-                messageLabel.setText("✅ Login successful!");
-                openDashboard(username);
+            boolean ok = userRepository.validateUser(username, password);
+            if (ok) {
+                switchToCalendar(username);
             } else {
-                messageLabel.setStyle("-fx-text-fill: red;");
-                messageLabel.setText("Invalid username or password");
+                messageLabel.setText("Invalid username or password.");
             }
         } catch (ExecutionException | InterruptedException ex) {
             ex.printStackTrace();
-            messageLabel.setStyle("-fx-text-fill: red;");
-            messageLabel.setText("⚠ Error connecting to database");
+            messageLabel.setText("Login failed. Please try again.");
         }
     }
 
-    private void openDashboard(String username) {
+    private void switchToCalendar(String username) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/com/example/calendarreminderapp/dashboard.fxml")
+                    getClass().getResource("/com/example/calendarreminderapp/calendar-view.fxml")
             );
             Parent root = loader.load();
 
-            DashboardController controller = loader.getController();
+            // Pass logged-in user into the calendar
+            CalendarController controller = loader.getController();
             controller.setCurrentUser(username);
 
             Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.setScene(new Scene(root, 800, 600));
-        } catch (IOException e) {
-            e.printStackTrace();
+            stage.setScene(new Scene(root, 1200, 650)); // size to match your calendar window
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            messageLabel.setText("Unable to open calendar.");
         }
     }
 

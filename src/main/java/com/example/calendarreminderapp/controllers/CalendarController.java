@@ -4,19 +4,20 @@ import com.example.calendarreminderapp.database.Reminder;
 import com.example.calendarreminderapp.database.ReminderRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -26,7 +27,6 @@ public class CalendarController {
     @FXML private GridPane calendarGrid;
     @FXML private Label selectedDateLabel;
 
-    // NEW unified upcoming reminders column
     @FXML private ListView<String> upcomingRemindersList;
 
     @FXML private TextField titleField;
@@ -35,12 +35,18 @@ public class CalendarController {
     @FXML private ComboBox<String> minuteCombo;
     @FXML private ComboBox<String> ampmCombo;
     @FXML private Button addReminderButton;
-    @FXML private Button backButton;
+    @FXML private Button backButton;     // now used as Logout
+
+    @FXML private Button editReminderButton;
+    @FXML private Button deleteReminderButton;
 
     private ReminderRepository reminderRepository;
     private String currentUser;
     private YearMonth currentYearMonth = YearMonth.now();
     private LocalDate selectedDate = LocalDate.now();
+
+    private List<Reminder> upcomingReminders = new ArrayList<>();
+    private Reminder selectedReminder;
 
     // -------------------- Public API --------------------
 
@@ -63,25 +69,58 @@ public class CalendarController {
 
         setupTimeDropdowns();
 
-        updateMonthLabel();
         buildCalendar();
         updateSelectedDateLabel();
         loadUpcomingReminders();
 
         addReminderButton.setOnAction(e -> handleAddReminder());
-        backButton.setOnAction(e -> handleBack());
+        backButton.setOnAction(e -> handleLogout());   // <- changed
+
+        if (editReminderButton != null) {
+            editReminderButton.setDisable(true);
+            editReminderButton.setOnAction(e -> handleEditReminder());
+        }
+        if (deleteReminderButton != null) {
+            deleteReminderButton.setDisable(true);
+            deleteReminderButton.setOnAction(e -> handleDeleteReminder());
+        }
+
+        if (upcomingRemindersList != null) {
+            upcomingRemindersList.getSelectionModel()
+                    .selectedIndexProperty()
+                    .addListener((obs, oldIndex, newIndex) -> {
+                        if (newIndex == null ||
+                                newIndex.intValue() < 0 ||
+                                newIndex.intValue() >= upcomingReminders.size()) {
+                            selectedReminder = null;
+                            if (editReminderButton != null) editReminderButton.setDisable(true);
+                            if (deleteReminderButton != null) deleteReminderButton.setDisable(true);
+                            return;
+                        }
+
+                        selectedReminder = upcomingReminders.get(newIndex.intValue());
+                        if (editReminderButton != null) editReminderButton.setDisable(false);
+                        if (deleteReminderButton != null) deleteReminderButton.setDisable(false);
+
+                        populateFormFromReminder(selectedReminder);
+                    });
+        }
     }
 
     private void setupTimeDropdowns() {
         if (hourCombo != null) {
             hourCombo.getItems().clear();
-            for (int i = 1; i <= 12; i++) hourCombo.getItems().add(String.valueOf(i));
+            for (int i = 1; i <= 12; i++) {
+                hourCombo.getItems().add(String.valueOf(i));
+            }
+            hourCombo.setPromptText("Hour");
         }
 
         if (minuteCombo != null) {
             minuteCombo.getItems().clear();
-            for (int i = 0; i < 60; i++)
+            for (int i = 0; i < 60; i++) {
                 minuteCombo.getItems().add(String.format("%02d", i));
+            }
             minuteCombo.setPromptText("Min");
         }
 
@@ -98,18 +137,21 @@ public class CalendarController {
         if (reminderRepository == null || currentUser == null) return;
 
         try {
-            List<Reminder> reminders =
-                    reminderRepository.getUpcomingReminders(currentUser);
+            upcomingReminders = reminderRepository.getUpcomingReminders(currentUser);
 
             upcomingRemindersList.getItems().clear();
 
-            for (Reminder r : reminders) {
+            for (Reminder r : upcomingReminders) {
                 String text = r.getDate() + "  " + r.getTime() + " — " + r.getTitle();
                 if (r.getDescription() != null && !r.getDescription().isBlank()) {
                     text += "\n" + r.getDescription();
                 }
                 upcomingRemindersList.getItems().add(text);
             }
+
+            selectedReminder = null;
+            if (editReminderButton != null) editReminderButton.setDisable(true);
+            if (deleteReminderButton != null) deleteReminderButton.setDisable(true);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,18 +173,16 @@ public class CalendarController {
     }
 
     @FXML
-    private void handleBack() {
+    private void handleLogout() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/com/example/calendarreminderapp/dashboard.fxml")
+                    getClass().getResource("/com/example/calendarreminderapp/login.fxml")
             );
             Parent root = loader.load();
 
-            DashboardController controller = loader.getController();
-            controller.setCurrentUser(currentUser);
-
             Stage stage = (Stage) backButton.getScene().getWindow();
             stage.setScene(new Scene(root, 800, 600));
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -183,18 +223,144 @@ public class CalendarController {
         try {
             reminderRepository.addReminder(currentUser, date, title, description, time);
 
-            titleField.clear();
-            descriptionArea.clear();
-            hourCombo.getSelectionModel().clearSelection();
-            minuteCombo.getSelectionModel().clearSelection();
-            minuteCombo.setPromptText("Min");
-            ampmCombo.getSelectionModel().select("AM");
-
+            clearForm();
             buildCalendar();
             loadUpcomingReminders();
 
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    // -------------------- Edit / Delete Reminder --------------------
+
+    @FXML
+    private void handleDeleteReminder() {
+        if (currentUser == null || selectedReminder == null) return;
+
+        try {
+            reminderRepository.deleteReminder(
+                    currentUser,
+                    selectedReminder.getDate(),
+                    selectedReminder.getTime(),
+                    selectedReminder.getTitle()
+            );
+
+            selectedReminder = null;
+            clearForm();
+            buildCalendar();
+            loadUpcomingReminders();
+
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleEditReminder() {
+        if (currentUser == null || selectedReminder == null) return;
+
+        String newTitle = titleField.getText().trim();
+        String newDesc  = descriptionArea.getText().trim();
+        String hour     = hourCombo.getValue();
+        String minute   = minuteCombo.getValue();
+        String ampm     = ampmCombo.getValue();
+
+        if (newTitle.isEmpty()) {
+            System.err.println("Title required");
+            return;
+        }
+        if (hour == null || minute == null || ampm == null) {
+            System.err.println("Time required");
+            return;
+        }
+
+        String newTime = hour + ":" + minute + " " + ampm;
+        LocalDate newDate = (selectedDate != null) ? selectedDate : LocalDate.now();
+
+        String oldDate  = selectedReminder.getDate();
+        String oldTime  = selectedReminder.getTime();
+        String oldTitle = selectedReminder.getTitle();
+
+        try {
+            reminderRepository.updateReminder(
+                    currentUser,
+                    oldDate,
+                    oldTime,
+                    oldTitle,
+                    newDate,
+                    newTitle,
+                    newDesc,
+                    newTime
+            );
+
+            selectedReminder = new Reminder(
+                    currentUser,
+                    newDate.toString(),
+                    newTitle,
+                    newDesc,
+                    newTime
+            );
+
+            buildCalendar();
+
+            int idx = upcomingRemindersList.getSelectionModel().getSelectedIndex();
+            if (idx >= 0 && idx < upcomingReminders.size()) {
+                upcomingReminders.set(idx, selectedReminder);
+
+                String text = selectedReminder.getDate()
+                        + "  " + selectedReminder.getTime()
+                        + " — " + selectedReminder.getTitle();
+                if (newDesc != null && !newDesc.isBlank()) {
+                    text += "\n" + newDesc;
+                }
+                upcomingRemindersList.getItems().set(idx, text);
+            }
+
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void populateFormFromReminder(Reminder r) {
+        if (r == null) return;
+
+        titleField.setText(r.getTitle());
+        descriptionArea.setText(r.getDescription() == null ? "" : r.getDescription());
+
+        try {
+            selectedDate = LocalDate.parse(r.getDate());
+            updateSelectedDateLabel();
+            highlightSelectedDay();
+        } catch (Exception ignored) { }
+
+        String time = r.getTime();
+        if (time != null) {
+            String[] parts = time.split(" ");
+            if (parts.length == 2) {
+                String[] hm = parts[0].split(":");
+                if (hm.length == 2) {
+                    hourCombo.getSelectionModel().select(hm[0]);
+                    minuteCombo.getSelectionModel().select(hm[1]);
+                }
+                ampmCombo.getSelectionModel().select(parts[1]);
+            }
+        }
+    }
+
+    private void clearForm() {
+        titleField.clear();
+        descriptionArea.clear();
+        if (hourCombo != null) {
+            hourCombo.getSelectionModel().clearSelection();
+            hourCombo.setPromptText("Hour");
+        }
+        if (minuteCombo != null) {
+            minuteCombo.getSelectionModel().clearSelection();
+            minuteCombo.setPromptText("Min");
+        }
+        if (ampmCombo != null) {
+            ampmCombo.getSelectionModel().select("AM");
         }
     }
 
@@ -290,6 +456,10 @@ public class CalendarController {
     }
 
     private void updateMonthLabel() {
+        if (monthYearLabel == null) {
+            return;
+        }
+
         String monthName = currentYearMonth.getMonth().name().toLowerCase();
         monthName = monthName.substring(0, 1).toUpperCase() + monthName.substring(1);
         monthYearLabel.setText(monthName + " " + currentYearMonth.getYear());

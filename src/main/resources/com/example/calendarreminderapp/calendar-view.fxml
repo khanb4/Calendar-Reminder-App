@@ -16,7 +16,8 @@
             <Label fx:id="monthYearLabel" text="December 2025" styleClass="title"/>
             <Button text="▶" onAction="#handleNextMonth"/>
             <Pane HBox.hgrow="ALWAYS"/>
-            <Button fx:id="backButton" text="Back" onAction="#handleBack"/>
+            <Button fx:id="backButton" text="Logout" onAction="#handleLogout"/>
+
         </HBox>
     </top>
 
@@ -47,10 +48,22 @@
                         <VBox spacing="10" HBox.hgrow="ALWAYS">
                             <Label text="Upcoming Reminders"
                                    styleClass="bottom-pane-label"/>
+
                             <ListView fx:id="upcomingRemindersList"
                                       VBox.vgrow="ALWAYS"
                                       maxWidth="1.7976931348623157E308"/>
+
+                            <!-- Edit / Delete buttons for selected reminder -->
+                            <HBox spacing="10">
+                                <Button fx:id="editReminderButton"
+                                        text="Edit Reminder"
+                                        onAction="#handleEditReminder"/>
+                                <Button fx:id="deleteReminderButton"
+                                        text="Delete Reminder"
+                                        onAction="#handleDeleteReminder"/>
+                            </HBox>
                         </VBox>
+
                     </HBox>
 
                     <!-- BOTTOM: Add Reminder form -->
@@ -60,9 +73,16 @@
                         <TextField fx:id="titleField" promptText="Title"/>
 
                         <HBox spacing="5">
-                            <ComboBox fx:id="hourCombo"  prefWidth="70.0"/>
-                            <ComboBox fx:id="minuteCombo" prefWidth="80.0"/>
-                            <ComboBox fx:id="ampmCombo"  prefWidth="80.0"/>
+                            <!-- Prompt text makes “Hour” show up when nothing selected -->
+                            <ComboBox fx:id="hourCombo"
+                                      prefWidth="70.0"
+                                      promptText="Hour"/>
+                            <ComboBox fx:id="minuteCombo"
+                                      prefWidth="80.0"
+                                      promptText="Min"/>
+                            <ComboBox fx:id="ampmCombo"
+                                      prefWidth="80.0"
+                                      promptText="AM"/>
                         </HBox>
 
                         <TextArea fx:id="descriptionArea"
