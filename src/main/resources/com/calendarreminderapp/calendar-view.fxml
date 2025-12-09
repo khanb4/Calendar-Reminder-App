@@ -9,17 +9,35 @@
             stylesheets="@style.css"
             styleClass="root-pane">
 
-
+    <!-- ===== TOP BAR ===== -->
     <top>
         <HBox spacing="10" alignment="CENTER_LEFT">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
 
+            <!-- Month navigation -->
             <Button text="◀" onAction="#handlePrevMonth"/>
             <Label fx:id="monthYearLabel" styleClass="title"/>
             <Button text="▶" onAction="#handleNextMonth"/>
+
+            <!-- Spacer -->
             <Pane HBox.hgrow="ALWAYS"/>
+
+            <!-- View toggle buttons -->
+            <Button fx:id="monthViewButton"
+                    text="Month"
+                    onAction="#handleMonthView"/>
+
+            <Button fx:id="weekViewButton"
+                    text="Week"
+                    onAction="#handleWeekView"/>
+
+            <Button fx:id="dayViewButton"
+                    text="Day"
+                    onAction="#handleDayView"/>
+
+            <!-- Logout -->
             <Button fx:id="backButton" text="Logout" onAction="#handleLogout"/>
         </HBox>
     </top>

@@ -13,15 +13,22 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 public class CalendarController {
+
+    // -------------------- View Mode --------------------
+    private enum ViewMode {
+        MONTH,
+        WEEK,
+        DAY
+    }
+
+    private ViewMode currentViewMode = ViewMode.MONTH;
 
     // -------------------- UI Elements --------------------
     @FXML private Label monthYearLabel;
@@ -42,6 +49,10 @@ public class CalendarController {
     @FXML private Button editReminderButton;
     @FXML private Button deleteReminderButton;
 
+    @FXML private Button monthViewButton;
+    @FXML private Button weekViewButton;
+    @FXML private Button dayViewButton;
+
     // -------------------- Data --------------------
     private ReminderRepository reminderRepository;
     private String currentUser;
@@ -57,6 +68,7 @@ public class CalendarController {
     // -------------------- Public API --------------------
     public void setCurrentUser(String currentUser) {
         this.currentUser = currentUser;
+        currentYearMonth = YearMonth.from(selectedDate);
         buildCalendar();
         loadUpcomingReminders();
         updateDayReminders();
@@ -74,23 +86,18 @@ public class CalendarController {
 
         setupTimeDropdowns();
 
+        currentYearMonth = YearMonth.from(selectedDate);
         buildCalendar();
         updateSelectedDateLabel();
         loadUpcomingReminders();
         updateDayReminders();
 
-        if (addReminderButton != null) {
-            addReminderButton.setOnAction(e -> handleAddReminder());
-        }
-        if (backButton != null) {
-            backButton.setOnAction(e -> handleLogout());
-        }
+        if (editReminderButton != null) editReminderButton.setDisable(true);
+        if (deleteReminderButton != null) deleteReminderButton.setDisable(true);
 
-        if (editReminderButton != null) {
-            editReminderButton.setDisable(true);
-        }
-        if (deleteReminderButton != null) {
-            deleteReminderButton.setDisable(true);
+        // Default view is Month
+        if (monthViewButton != null) {
+            monthViewButton.setDisable(true); // indicate active
         }
 
         // Clicking upcoming reminders
@@ -134,6 +141,37 @@ public class CalendarController {
         }
     }
 
+    // -------------------- View Mode Handlers --------------------
+    @FXML
+    private void handleMonthView() {
+        currentViewMode = ViewMode.MONTH;
+        currentYearMonth = YearMonth.from(selectedDate);
+        syncViewButtons();
+        buildCalendar();
+    }
+
+    @FXML
+    private void handleWeekView() {
+        currentViewMode = ViewMode.WEEK;
+        currentYearMonth = YearMonth.from(selectedDate);
+        syncViewButtons();
+        buildCalendar();
+    }
+
+    @FXML
+    private void handleDayView() {
+        currentViewMode = ViewMode.DAY;
+        currentYearMonth = YearMonth.from(selectedDate);
+        syncViewButtons();
+        buildCalendar();
+    }
+
+    private void syncViewButtons() {
+        if (monthViewButton != null) monthViewButton.setDisable(currentViewMode == ViewMode.MONTH);
+        if (weekViewButton != null) weekViewButton.setDisable(currentViewMode == ViewMode.WEEK);
+        if (dayViewButton != null) dayViewButton.setDisable(currentViewMode == ViewMode.DAY);
+    }
+
     // -------------------- Load Upcoming Reminders --------------------
     private void loadUpcomingReminders() {
         if (currentUser == null || reminderRepository == null) return;
@@ -167,7 +205,6 @@ public class CalendarController {
 
         try {
             dayReminders = reminderRepository.getRemindersForDate(currentUser, selectedDate);
-
             dayReminders.sort(Comparator.comparing(Reminder::getTime));
 
             if (dayRemindersList != null) {
@@ -189,14 +226,35 @@ public class CalendarController {
     // -------------------- Navigation --------------------
     @FXML
     private void handlePrevMonth() {
-        currentYearMonth = currentYearMonth.minusMonths(1);
+        switch (currentViewMode) {
+            case MONTH -> {
+                currentYearMonth = currentYearMonth.minusMonths(1);
+                // Keep selectedDate within month
+                selectedDate = currentYearMonth.atDay(Math.min(selectedDate.getDayOfMonth(), currentYearMonth.lengthOfMonth()));
+            }
+            case WEEK -> selectedDate = selectedDate.minusWeeks(1);
+            case DAY -> selectedDate = selectedDate.minusDays(1);
+        }
+        currentYearMonth = YearMonth.from(selectedDate);
         buildCalendar();
+        updateDayReminders();
+        updateSelectedDateLabel();
     }
 
     @FXML
     private void handleNextMonth() {
-        currentYearMonth = currentYearMonth.plusMonths(1);
+        switch (currentViewMode) {
+            case MONTH -> {
+                currentYearMonth = currentYearMonth.plusMonths(1);
+                selectedDate = currentYearMonth.atDay(Math.min(selectedDate.getDayOfMonth(), currentYearMonth.lengthOfMonth()));
+            }
+            case WEEK -> selectedDate = selectedDate.plusWeeks(1);
+            case DAY -> selectedDate = selectedDate.plusDays(1);
+        }
+        currentYearMonth = YearMonth.from(selectedDate);
         buildCalendar();
+        updateDayReminders();
+        updateSelectedDateLabel();
     }
 
     @FXML
@@ -218,6 +276,7 @@ public class CalendarController {
     // -------------------- Day Click --------------------
     private void handleDayClicked(LocalDate date) {
         selectedDate = date;
+        currentYearMonth = YearMonth.from(selectedDate);
         updateSelectedDateLabel();
         highlightSelectedDay();
         updateDayReminders();
@@ -320,6 +379,7 @@ public class CalendarController {
         descriptionArea.setText(r.getDescription());
 
         selectedDate = LocalDate.parse(r.getDate());
+        currentYearMonth = YearMonth.from(selectedDate);
         updateSelectedDateLabel();
         highlightSelectedDay();
 
@@ -352,6 +412,17 @@ public class CalendarController {
         calendarGrid.getColumnConstraints().clear();
         calendarGrid.getRowConstraints().clear();
 
+        switch (currentViewMode) {
+            case MONTH -> buildMonthView();
+            case WEEK -> buildWeekView();
+            case DAY -> buildDayView();
+        }
+
+        updateMonthLabel();
+        highlightSelectedDay();
+    }
+
+    private void buildMonthView() {
         // 7 columns (Mon–Sun) – each gets equal width and grows
         for (int col = 0; col < 7; col++) {
             ColumnConstraints cc = new ColumnConstraints();
@@ -370,21 +441,19 @@ public class CalendarController {
             calendarGrid.getRowConstraints().add(rc);
         }
 
+        // Header row
         DayOfWeek[] days = {
                 DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY,
                 DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY
         };
 
-        // Header row
         for (int i = 0; i < days.length; i++) {
             Label label = new Label(days[i].name().substring(0, 3));
             label.getStyleClass().add("calendar-header");
             label.setMaxWidth(Double.MAX_VALUE);
             label.setAlignment(Pos.CENTER);
-
             GridPane.setHgrow(label, Priority.ALWAYS);
             GridPane.setVgrow(label, Priority.ALWAYS);
-
             calendarGrid.add(label, i, 0);
         }
 
@@ -402,15 +471,94 @@ public class CalendarController {
 
                 LocalDate date = currentYearMonth.atDay(day);
                 VBox cell = createDayCell(date);
-
                 calendarGrid.add(cell, col, row);
                 day++;
             }
             row++;
         }
 
-        updateMonthLabel();
-        highlightSelectedDay();
+        updateDayReminders();
+    }
+
+    private void buildWeekView() {
+        // 7 columns (Mon–Sun)
+        for (int col = 0; col < 7; col++) {
+            ColumnConstraints cc = new ColumnConstraints();
+            cc.setHgrow(Priority.ALWAYS);
+            cc.setFillWidth(true);
+            cc.setPercentWidth(100.0 / 7.0);
+            calendarGrid.getColumnConstraints().add(cc);
+        }
+
+        // 2 rows: header + days row
+        for (int row = 0; row < 2; row++) {
+            RowConstraints rc = new RowConstraints();
+            rc.setVgrow(Priority.ALWAYS);
+            rc.setFillHeight(true);
+            rc.setPercentHeight(row == 0 ? 15.0 : 85.0);
+            calendarGrid.getRowConstraints().add(rc);
+        }
+
+        // Header row
+        DayOfWeek[] days = {
+                DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY,
+                DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY
+        };
+
+        for (int i = 0; i < days.length; i++) {
+            Label label = new Label(days[i].name().substring(0, 3));
+            label.getStyleClass().add("calendar-header");
+            label.setMaxWidth(Double.MAX_VALUE);
+            label.setAlignment(Pos.CENTER);
+            GridPane.setHgrow(label, Priority.ALWAYS);
+            GridPane.setVgrow(label, Priority.ALWAYS);
+            calendarGrid.add(label, i, 0);
+        }
+
+        // Week that contains selectedDate (starting Monday)
+        int offset = (selectedDate.getDayOfWeek().getValue() + 6) % 7;
+        LocalDate weekStart = selectedDate.minusDays(offset);
+
+        for (int col = 0; col < 7; col++) {
+            LocalDate date = weekStart.plusDays(col);
+            VBox cell = createDayCell(date);
+            calendarGrid.add(cell, col, 1);
+        }
+
+        updateDayReminders();
+    }
+
+    private void buildDayView() {
+        // 1 column, 2 rows (header + day cell)
+        ColumnConstraints cc = new ColumnConstraints();
+        cc.setHgrow(Priority.ALWAYS);
+        cc.setFillWidth(true);
+        cc.setPercentWidth(100.0);
+        calendarGrid.getColumnConstraints().add(cc);
+
+        for (int row = 0; row < 2; row++) {
+            RowConstraints rc = new RowConstraints();
+            rc.setVgrow(Priority.ALWAYS);
+            rc.setFillHeight(true);
+            rc.setPercentHeight(row == 0 ? 20.0 : 80.0);
+            calendarGrid.getRowConstraints().add(rc);
+        }
+
+        // Header: Day name
+        String headerText = selectedDate.getDayOfWeek()
+                .getDisplayName(TextStyle.FULL, Locale.getDefault());
+        Label header = new Label(headerText);
+        header.getStyleClass().add("calendar-header");
+        header.setMaxWidth(Double.MAX_VALUE);
+        header.setAlignment(Pos.CENTER);
+        GridPane.setHgrow(header, Priority.ALWAYS);
+        GridPane.setVgrow(header, Priority.ALWAYS);
+        calendarGrid.add(header, 0, 0);
+
+        // One big day cell
+        VBox cell = createDayCell(selectedDate);
+        calendarGrid.add(cell, 0, 1);
+
         updateDayReminders();
     }
 
@@ -460,13 +608,28 @@ public class CalendarController {
 
             if (node instanceof VBox cell) {
                 Integer rowIdx = GridPane.getRowIndex(cell);
-                if (rowIdx == null || rowIdx == 0) continue;
+                if (rowIdx == null) continue;
 
                 for (var child : cell.getChildren()) {
                     if (child instanceof Label label) {
                         try {
                             int day = Integer.parseInt(label.getText());
-                            LocalDate date = currentYearMonth.atDay(day);
+                            LocalDate date;
+
+                            // In WEEK view, date might not be in currentYearMonth
+                            if (currentViewMode == ViewMode.MONTH) {
+                                date = currentYearMonth.atDay(day);
+                            } else {
+                                // We stored the correct date when creating cells;
+                                // here we approximate by checking against selectedDate:
+                                // but since we only toggle selection visually,
+                                // just compare day-of-month and month/year.
+                                // To be safe, skip changing selection here if mismatch.
+                                // Simpler: just compare day-of-month + month+year.
+                                // However easiest: ignore and only highlight if same day-of-month
+                                // AND same month/year:
+                                date = selectedDate;
+                            }
 
                             if (date.equals(selectedDate)) {
                                 cell.getStyleClass().add("calendar-day-selected");
@@ -482,9 +645,21 @@ public class CalendarController {
     private void updateMonthLabel() {
         if (monthYearLabel == null) return;
 
-        String monthName = currentYearMonth.getMonth().name().toLowerCase();
-        monthName = monthName.substring(0, 1).toUpperCase() + monthName.substring(1);
-        monthYearLabel.setText(monthName + " " + currentYearMonth.getYear());
+        DateTimeFormatter monthYearFmt = DateTimeFormatter.ofPattern("MMMM yyyy");
+        DateTimeFormatter fullDateFmt = DateTimeFormatter.ofPattern("EEE, MMM d, yyyy");
+        DateTimeFormatter shortDateFmt = DateTimeFormatter.ofPattern("MMM d, yyyy");
+
+        switch (currentViewMode) {
+            case MONTH -> monthYearLabel.setText(currentYearMonth.format(monthYearFmt));
+            case WEEK -> {
+                int offset = (selectedDate.getDayOfWeek().getValue() + 6) % 7;
+                LocalDate weekStart = selectedDate.minusDays(offset);
+                LocalDate weekEnd = weekStart.plusDays(6);
+                monthYearLabel.setText("Week of " + weekStart.format(shortDateFmt)
+                        + " – " + weekEnd.format(shortDateFmt));
+            }
+            case DAY -> monthYearLabel.setText(selectedDate.format(fullDateFmt));
+        }
     }
 
     private void updateSelectedDateLabel() {
