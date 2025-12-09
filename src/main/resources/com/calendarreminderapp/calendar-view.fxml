@@ -9,7 +9,7 @@
             stylesheets="@style.css"
             styleClass="root-pane">
 
-    <!-- ===== TOP BAR ===== -->
+
     <top>
         <HBox spacing="10" alignment="CENTER_LEFT">
             <padding>
@@ -43,26 +43,44 @@
                 <Label fx:id="selectedDateLabel" styleClass="bottom-pane-label"/>
             </VBox>
 
-            <!-- REMINDERS (TWO COLUMNS) -->
-            <HBox spacing="20" prefWidth="450" maxWidth="450">
+            <!-- REMINDERS (TWO COLUMNS + BUTTONS) -->
+            <VBox spacing="10" prefWidth="450" maxWidth="450">
 
-                <!-- Selected Day -->
-                <VBox spacing="10" prefWidth="225" maxWidth="225">
-                    <Label text="Selected Day" styleClass="right-section-title"/>
-                    <ListView fx:id="dayRemindersList"
-                              styleClass="reminder-list"
-                              VBox.vgrow="ALWAYS"/>
-                </VBox>
+                <!-- Two reminder columns -->
+                <HBox spacing="20">
 
-                <!-- Upcoming -->
-                <VBox spacing="10" prefWidth="225" maxWidth="225">
-                    <Label text="Upcoming" styleClass="right-section-title"/>
-                    <ListView fx:id="upcomingRemindersList"
-                              styleClass="reminder-list"
-                              VBox.vgrow="ALWAYS"/>
-                </VBox>
+                    <!-- Selected Day -->
+                    <VBox spacing="10" prefWidth="225" maxWidth="225">
+                        <Label text="Selected Day" styleClass="right-section-title"/>
+                        <ListView fx:id="dayRemindersList"
+                                  styleClass="reminder-list"
+                                  VBox.vgrow="ALWAYS"/>
+                    </VBox>
 
-            </HBox>
+                    <!-- Upcoming -->
+                    <VBox spacing="10" prefWidth="225" maxWidth="225">
+                        <Label text="Upcoming" styleClass="right-section-title"/>
+                        <ListView fx:id="upcomingRemindersList"
+                                  styleClass="reminder-list"
+                                  VBox.vgrow="ALWAYS"/>
+                    </VBox>
+
+                </HBox>
+
+                <!-- Edit / Delete buttons -->
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Button fx:id="editReminderButton"
+                            text="Edit Reminder"
+                            prefWidth="140"
+                            onAction="#handleEditReminder"/>
+
+                    <Button fx:id="deleteReminderButton"
+                            text="Delete Reminder"
+                            prefWidth="140"
+                            onAction="#handleDeleteReminder"/>
+                </HBox>
+
+            </VBox>
         </HBox>
     </center>
 
