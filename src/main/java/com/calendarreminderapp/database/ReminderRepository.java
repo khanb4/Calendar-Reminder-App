@@ -1,4 +1,4 @@
-package com.example.calendarreminderapp.database;
+package com.calendarreminderapp.database;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;

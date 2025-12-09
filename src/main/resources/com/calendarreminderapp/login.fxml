@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane styleClass="root-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.calendarreminderapp.controllers.LoginController">
+<AnchorPane styleClass="root-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.calendarreminderapp.controllers.LoginController">
 
     <children>
         <StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">

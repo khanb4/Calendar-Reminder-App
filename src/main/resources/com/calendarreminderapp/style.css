@@ -1,0 +1,220 @@
+/* ===========================
+   GLOBAL LAYOUT / BACKGROUND
+   =========================== */
+
+.root-pane {
+    -fx-background-color: #0b0710;
+}
+
+.container {
+    -fx-background-color: #1b1024;
+    -fx-padding: 24;
+    -fx-spacing: 16;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-border-color: #3b1639;
+}
+
+.label {
+    -fx-text-fill: #fdf2e9;
+}
+
+.title {
+    -fx-text-fill: #ffe7c7;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.message-label {
+    -fx-text-fill: #fbbf77;
+    -fx-font-size: 12px;
+}
+
+/* ===========================
+   BUTTONS
+   =========================== */
+
+.button,
+.button-primary {
+    -fx-background-color: #f97316;
+    -fx-text-fill: #1b1024;
+    -fx-font-weight: bold;
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-border-color: transparent;
+    -fx-padding: 8 20;
+}
+
+.button:hover,
+.button-primary:hover {
+    -fx-background-color: #fb923c;
+}
+
+.button-secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: #fed7aa;
+    -fx-font-weight: bold;
+    -fx-border-color: #f97316;
+    -fx-border-radius: 999;
+    -fx-background-radius: 999;
+    -fx-padding: 8 20;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #1f2937;
+}
+
+/* ===========================
+   TEXTFIELDS / TEXTAREAS
+   =========================== */
+
+.text-field,
+.password-field,
+.text-area,
+.text-area .content {
+    -fx-background-color: #130c1b;
+    -fx-text-fill: #fef3c7;
+    -fx-prompt-text-fill: #f97316;
+    -fx-border-color: #4c1d35;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 6 10;
+    -fx-pref-width: 260;
+}
+
+.text-field:focused,
+.password-field:focused,
+.text-area:focused {
+    -fx-border-color: #fb923c;
+}
+
+.text-input {
+    -fx-control-inner-background: #130c1b;
+    -fx-text-fill: #fef3c7;
+}
+
+/* ===========================
+   COMBOBOXES
+   =========================== */
+
+.combo-box,
+.combo-box-base {
+    -fx-background-color: #130c1b;
+    -fx-border-color: #4c1d35;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-text-fill: #fef3c7;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #fef3c7;
+    -fx-background-color: #130c1b;
+}
+
+/* ===========================
+   SCROLLPANE & LISTVIEW
+   =========================== */
+
+.scroll-pane,
+.scroll-pane .viewport {
+    -fx-background-color: #130c1b;
+}
+
+.list-view {
+    -fx-background-color: #130c1b;
+    -fx-control-inner-background: #130c1b;
+    -fx-border-color: #3b1639;
+    -fx-border-width: 1;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+}
+
+.list-cell {
+    -fx-text-fill: #fef3c7;
+    -fx-background-color: #130c1b;
+    -fx-padding: 6 8;
+}
+
+.list-cell:filled:selected,
+.list-cell:filled:selected:focused {
+    -fx-background-color: #f97316;
+    -fx-text-fill: #1b1024;
+}
+
+/* Scrollbar */
+.scroll-bar {
+    -fx-background-color: #130c1b;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #4c1d35;
+}
+
+/* ===========================
+   CALENDAR STYLES
+   =========================== */
+
+.calendar-toolbar {
+    -fx-padding: 10 16;
+    -fx-background-color: #1b1024;
+    -fx-border-color: #3b1639;
+    -fx-border-width: 0 0 1 0;
+}
+
+.calendar-main {
+    -fx-background-color: #130c1b;
+}
+
+.calendar-header {
+    -fx-text-fill: #fed7aa;
+    -fx-font-weight: bold;
+    -fx-padding: 4 0;
+}
+
+.day-cell {
+    -fx-background-color: #130c1b;
+    -fx-border-color: #3b1639;
+    -fx-border-width: 1;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-pref-width: 100;
+    -fx-pref-height: 90;
+}
+
+.day-cell:hover {
+    -fx-background-color: #1f2937;
+}
+
+.calendar-day-number {
+    -fx-text-fill: #fffbeb;
+    -fx-font-weight: bold;
+}
+
+.calendar-day-selected {
+    -fx-background-color: #3b1639;
+    -fx-border-color: #f97316;
+    -fx-border-width: 2;
+}
+
+.calendar-reminder-dot,
+.calendar-reminder-icon {
+    -fx-text-fill: #fb923c;
+    -fx-font-size: 10px;
+}
+
+.calendar-selected-label {
+    -fx-text-fill: #fed7aa;
+    -fx-font-size: 12px;
+}
+
+.calendar-bottom {
+    -fx-background-color: #1b1024;
+    -fx-border-color: #3b1639;
+    -fx-border-width: 1 0 0 0;
+}
+
+.bottom-pane-label {
+    -fx-text-fill: #fdf2e9;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}

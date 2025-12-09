@@ -1,4 +1,4 @@
-package com.example.calendarreminderapp;
+package com.calendarreminderapp;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +9,7 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/calendarreminderapp/login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/calendarreminderapp/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Calendar Reminder App - Login");
         stage.setScene(scene);

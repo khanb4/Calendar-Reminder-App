@@ -1,4 +1,4 @@
-package com.example.calendarreminderapp;
+package com.calendarreminderapp;
 
 import java.time.LocalDateTime;
 

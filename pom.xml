@@ -74,7 +74,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <!-- Non-modular JavaFX app main class -->
-                            <mainClass>com.example.calendarreminderapp.HelloApplication</mainClass>
+                            <mainClass>com.calendarreminderapp.HelloApplication</mainClass>
                         </configuration>
                     </execution>
                 </executions>

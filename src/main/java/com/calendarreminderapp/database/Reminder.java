@@ -1,4 +1,4 @@
-package com.example.calendarreminderapp.database;
+package com.calendarreminderapp.database;
 
 /**
  * Firestore-friendly Reminder model.

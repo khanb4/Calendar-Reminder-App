@@ -1,6 +1,6 @@
-package com.example.calendarreminderapp.controllers;
+package com.calendarreminderapp.controllers;
 
-import com.example.calendarreminderapp.database.UserRepository;
+import com.calendarreminderapp.database.UserRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -64,7 +64,7 @@ public class LoginController {
     private void switchToCalendar(String username) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/com/example/calendarreminderapp/calendar-view.fxml")
+                    getClass().getResource("/com/calendarreminderapp/calendar-view.fxml")
             );
             Parent root = loader.load();
 
@@ -84,7 +84,7 @@ public class LoginController {
     private void switchToRegister() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/com/example/calendarreminderapp/register.fxml")
+                    getClass().getResource("/com/calendarreminderapp/register.fxml")
             );
             Parent root = loader.load();
             Stage stage = (Stage) loginButton.getScene().getWindow();

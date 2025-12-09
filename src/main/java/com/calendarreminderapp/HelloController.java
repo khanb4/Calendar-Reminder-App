@@ -1,4 +1,4 @@
-package com.example.calendarreminderapp;
+package com.calendarreminderapp;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

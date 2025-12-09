@@ -5,7 +5,7 @@
 <?import javafx.geometry.Insets?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.calendarreminderapp.controllers.CalendarController"
+            fx:controller="com.calendarreminderapp.controllers.CalendarController"
             styleClass="root-pane"
             stylesheets="@style.css">
 

@@ -1,7 +1,7 @@
-package com.example.calendarreminderapp.controllers;
+package com.calendarreminderapp.controllers;
 
-import com.example.calendarreminderapp.database.Reminder;
-import com.example.calendarreminderapp.database.ReminderRepository;
+import com.calendarreminderapp.database.Reminder;
+import com.calendarreminderapp.database.ReminderRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -176,7 +176,7 @@ public class CalendarController {
     private void handleLogout() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/com/example/calendarreminderapp/login.fxml")
+                    getClass().getResource("/com/calendarreminderapp/login.fxml")
             );
             Parent root = loader.load();
 
