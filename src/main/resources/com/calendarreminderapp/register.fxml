@@ -19,9 +19,9 @@
 
                 <Label text="Create Your Account" styleClass="title"/>
 
-                <TextField fx:id="usernameField" promptText="Username" styleClass="text-field"/>
-                <PasswordField fx:id="passwordField" promptText="Password" styleClass="password-field"/>
-                <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" styleClass="password-field"/>
+                <TextField fx:id="usernameField" promptText="Please Create a Username" styleClass="text-field"/>
+                <PasswordField fx:id="passwordField" promptText="Please Enter Your Password" styleClass="password-field"/>
+                <PasswordField fx:id="confirmPasswordField" promptText="Please Confirm Your Password" styleClass="password-field"/>
 
                 <Button fx:id="registerButton" text="Sign Up" styleClass="button-primary"/>
                 <Button fx:id="backToLoginButton" text="Back to Login" styleClass="button-secondary"/>

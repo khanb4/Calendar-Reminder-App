@@ -6,95 +6,92 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.calendarreminderapp.controllers.CalendarController"
-            styleClass="root-pane"
-            stylesheets="@style.css">
+            stylesheets="@style.css"
+            styleClass="root-pane">
 
-    <!-- TOP: month header + nav + back -->
+    <!-- ===== TOP BAR ===== -->
     <top>
-        <HBox spacing="10" alignment="CENTER" BorderPane.alignment="CENTER">
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
             <Button text="◀" onAction="#handlePrevMonth"/>
-            <Label fx:id="monthYearLabel" text="December 2025" styleClass="title"/>
+            <Label fx:id="monthYearLabel" styleClass="title"/>
             <Button text="▶" onAction="#handleNextMonth"/>
             <Pane HBox.hgrow="ALWAYS"/>
             <Button fx:id="backButton" text="Logout" onAction="#handleLogout"/>
-
         </HBox>
     </top>
 
-    <!-- CENTER -->
+    <!-- ===== CENTER CONTENT ===== -->
     <center>
-        <ScrollPane fitToWidth="true"
-                    pannable="true"
-                    hbarPolicy="NEVER"
-                    vbarPolicy="AS_NEEDED">
-            <content>
-                <VBox spacing="20">
-                    <padding>
-                        <Insets top="10" right="10" bottom="10" left="10"/>
-                    </padding>
+        <HBox spacing="30">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
 
-                    <!-- MAIN CONTENT: Calendar + Upcoming Reminders -->
-                    <HBox spacing="20">
+            <!-- CALENDAR AREA -->
+            <VBox spacing="15" HBox.hgrow="ALWAYS">
+                <GridPane fx:id="calendarGrid"
+                          hgap="10" vgap="10"
+                          VBox.vgrow="ALWAYS"
+                          HBox.hgrow="ALWAYS"
+                          maxWidth="Infinity"
+                          maxHeight="Infinity"/>
 
-                        <!-- LEFT: Calendar -->
-                        <VBox spacing="10">
-                            <GridPane fx:id="calendarGrid" hgap="6" vgap="6"/>
-                            <Label fx:id="selectedDateLabel"
-                                   text="Selected:"
-                                   styleClass="bottom-pane-label"/>
-                        </VBox>
+                <Label fx:id="selectedDateLabel" styleClass="bottom-pane-label"/>
+            </VBox>
 
-                        <!-- RIGHT: Upcoming Reminders -->
-                        <VBox spacing="10" HBox.hgrow="ALWAYS">
-                            <Label text="Upcoming Reminders"
-                                   styleClass="bottom-pane-label"/>
+            <!-- REMINDERS (TWO COLUMNS) -->
+            <HBox spacing="20" prefWidth="450" maxWidth="450">
 
-                            <ListView fx:id="upcomingRemindersList"
-                                      VBox.vgrow="ALWAYS"
-                                      maxWidth="1.7976931348623157E308"/>
-
-                            <!-- Edit / Delete buttons for selected reminder -->
-                            <HBox spacing="10">
-                                <Button fx:id="editReminderButton"
-                                        text="Edit Reminder"
-                                        onAction="#handleEditReminder"/>
-                                <Button fx:id="deleteReminderButton"
-                                        text="Delete Reminder"
-                                        onAction="#handleDeleteReminder"/>
-                            </HBox>
-                        </VBox>
-
-                    </HBox>
-
-                    <!-- BOTTOM: Add Reminder form -->
-                    <VBox spacing="8">
-                        <Label text="Add Reminder" styleClass="bottom-pane-label"/>
-
-                        <TextField fx:id="titleField" promptText="Title"/>
-
-                        <HBox spacing="5">
-                            <!-- Prompt text makes “Hour” show up when nothing selected -->
-                            <ComboBox fx:id="hourCombo"
-                                      prefWidth="70.0"
-                                      promptText="Hour"/>
-                            <ComboBox fx:id="minuteCombo"
-                                      prefWidth="80.0"
-                                      promptText="Min"/>
-                            <ComboBox fx:id="ampmCombo"
-                                      prefWidth="80.0"
-                                      promptText="AM"/>
-                        </HBox>
-
-                        <TextArea fx:id="descriptionArea"
-                                  promptText="Description"
-                                  prefRowCount="2"/>
-
-                        <Button fx:id="addReminderButton" text="Save Reminder"/>
-                    </VBox>
-
+                <!-- Selected Day -->
+                <VBox spacing="10" prefWidth="225" maxWidth="225">
+                    <Label text="Selected Day" styleClass="right-section-title"/>
+                    <ListView fx:id="dayRemindersList"
+                              styleClass="reminder-list"
+                              VBox.vgrow="ALWAYS"/>
                 </VBox>
-            </content>
-        </ScrollPane>
+
+                <!-- Upcoming -->
+                <VBox spacing="10" prefWidth="225" maxWidth="225">
+                    <Label text="Upcoming" styleClass="right-section-title"/>
+                    <ListView fx:id="upcomingRemindersList"
+                              styleClass="reminder-list"
+                              VBox.vgrow="ALWAYS"/>
+                </VBox>
+
+            </HBox>
+        </HBox>
     </center>
+
+    <!-- ===== ADD REMINDER FORM ===== -->
+    <bottom>
+        <VBox spacing="12">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Label text="Add Reminder" styleClass="bottom-pane-label"/>
+
+            <TextField fx:id="titleField" promptText="Title"/>
+
+            <HBox spacing="10">
+                <ComboBox fx:id="hourCombo"   prefWidth="90" promptText="Hr"/>
+                <ComboBox fx:id="minuteCombo" prefWidth="90" promptText="Min"/>
+                <ComboBox fx:id="ampmCombo"   prefWidth="90" promptText="AM/PM"/>
+            </HBox>
+
+            <TextArea fx:id="descriptionArea"
+                      promptText="Description"
+                      prefRowCount="2"/>
+
+            <Button fx:id="addReminderButton"
+                    text="Save Reminder"
+                    prefWidth="200"
+                    onAction="#handleAddReminder"/>
+        </VBox>
+    </bottom>
 
 </BorderPane>

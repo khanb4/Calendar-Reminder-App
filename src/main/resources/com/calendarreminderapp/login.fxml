@@ -28,8 +28,8 @@
                     <Label styleClass="title" text="Calendar Reminder App" />
                 </HBox>
 
-                <TextField fx:id="usernameField" promptText="Username" styleClass="text-field" />
-                <PasswordField fx:id="passwordField" promptText="Password" styleClass="password-field" />
+                <TextField fx:id="usernameField" promptText="Please Enter Your Username" styleClass="text-field" />
+                <PasswordField fx:id="passwordField" promptText="Please Enter Your Password" styleClass="password-field" />
 
                 <Button fx:id="loginButton" styleClass="button-primary" text="Login" />
                 <Button fx:id="registerButton" styleClass="button-secondary" text="Create an account" />
