@@ -409,25 +409,137 @@ public class CalendarController {
     }
 
     private void buildWeekView() {
-        buildMonthView(); // simple fallback
-    }
 
-    private void buildDayView() {
+        calendarGrid.getChildren().clear();
         calendarGrid.getColumnConstraints().clear();
         calendarGrid.getRowConstraints().clear();
-        calendarGrid.getChildren().clear();
 
-        ColumnConstraints cc = new ColumnConstraints();
-        cc.setPercentWidth(100);
-        cc.setHgrow(Priority.ALWAYS);
-        calendarGrid.getColumnConstraints().add(cc);
+        LocalDate weekStart = selectedDate.with(DayOfWeek.MONDAY);
+        LocalDate weekEnd = weekStart.plusDays(6);
+
+        for (int i = 0; i < 7; i++) {
+            ColumnConstraints cc = new ColumnConstraints();
+            cc.setPercentWidth(100.0 / 7);
+            cc.setHgrow(Priority.ALWAYS);
+            calendarGrid.getColumnConstraints().add(cc);
+        }
 
         RowConstraints rc = new RowConstraints();
         rc.setPercentHeight(100);
         rc.setVgrow(Priority.ALWAYS);
         calendarGrid.getRowConstraints().add(rc);
 
-        calendarGrid.add(createDayCell(selectedDate), 0, 0);
+        for (int i = 0; i < 7; i++) {
+            LocalDate date = weekStart.plusDays(i);
+            VBox cell = buildWeekDayCell(date);
+            calendarGrid.add(cell, i, 0);
+        }
+
+        monthYearLabel.setText("Week of " +
+                weekStart.format(DateTimeFormatter.ofPattern("MMM d")) +
+                " - " +
+                weekEnd.format(DateTimeFormatter.ofPattern("MMM d, yyyy")));
+    }
+
+    private VBox buildWeekDayCell(LocalDate date) {
+        VBox cell = new VBox();
+        cell.getStyleClass().add("day-cell");
+        cell.setSpacing(8);
+        cell.setPadding(new Insets(10));
+
+        Label dayNumber = new Label(String.valueOf(date.getDayOfMonth()));
+        dayNumber.getStyleClass().add("calendar-day-number");
+        cell.getChildren().add(dayNumber);
+
+        try {
+            List<Reminder> reminders = reminderRepository.getRemindersForDate(currentUser, date);
+            for (Reminder r : reminders) {
+                Label lbl = new Label(r.getTime() + " — " + r.getTitle());
+                lbl.setWrapText(true);
+                lbl.setStyle("-fx-font-size: 10px; -fx-text-fill: #5F6368;");
+                cell.getChildren().add(lbl);
+            }
+        } catch (Exception ignored) {}
+
+        cell.setOnMouseClicked(e -> {
+            selectedDate = date;
+            refresh();
+        });
+
+        if (date.equals(selectedDate)) {
+            cell.getStyleClass().add("calendar-day-selected");
+        }
+
+        return cell;
+    }
+
+    private void buildDayView() {
+
+        calendarGrid.getChildren().clear();
+        calendarGrid.getColumnConstraints().clear();
+        calendarGrid.getRowConstraints().clear();
+
+        ColumnConstraints cc = new ColumnConstraints();
+        cc.setPercentWidth(100);
+        cc.setHgrow(Priority.ALWAYS);
+        calendarGrid.getColumnConstraints().add(cc);
+
+        for (int i = 0; i < 24; i++) {
+            RowConstraints rc = new RowConstraints();
+            rc.setPercentHeight(100.0 / 24);
+            rc.setVgrow(Priority.ALWAYS);
+            calendarGrid.getRowConstraints().add(rc);
+
+            Label hourLabel = new Label(String.format("%02d:00", i));
+            hourLabel.setStyle("-fx-text-fill: #5F6368; -fx-padding: 4 0 0 6;");
+            calendarGrid.add(hourLabel, 0, i);
+        }
+
+        try {
+            List<Reminder> list = reminderRepository.getRemindersForDate(currentUser, selectedDate);
+
+            for (Reminder r : list) {
+                int hour = parseHour(r.getTime());
+
+                VBox eventBox = new VBox();
+                eventBox.setStyle(
+                        "-fx-background-color: #DCEBFF; " +
+                        "-fx-background-radius: 8; " +
+                        "-fx-padding: 6;"
+                );
+
+                Label lbl = new Label(r.getTime() + " — " + r.getTitle());
+                lbl.setWrapText(true);
+                lbl.setStyle("-fx-font-size: 12px; -fx-text-fill: #1F1F1F;");
+                eventBox.getChildren().add(lbl);
+
+                calendarGrid.add(eventBox, 0, hour);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        monthYearLabel.setText(
+                selectedDate.format(DateTimeFormatter.ofPattern("EEEE, MMM d yyyy"))
+        );
+    }
+
+    private int parseHour(String time) {
+        try {
+            String[] parts = time.split(" ");
+            String[] hm = parts[0].split(":");
+
+            int hour = Integer.parseInt(hm[0]);
+            boolean pm = parts[1].equalsIgnoreCase("PM");
+
+            if (pm && hour != 12) hour += 12;
+            if (!pm && hour == 12) hour = 0;
+
+            return hour;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     private VBox createDayCell(LocalDate date) {

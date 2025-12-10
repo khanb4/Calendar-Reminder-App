@@ -1,160 +1,203 @@
-/* ============================================================
-   JAVA FX — MATERIAL PASTEL LIGHT THEME (SOFT VERSION)
-   ============================================================ */
+/* ------------------------------------------
+   GLOBAL THEME — Pastel Light (Option B)
+   ------------------------------------------ */
 
-/* -----------------------------
-   GENERAL COLORS
------------------------------- */
 .root-pane {
-    -fx-background-color: #F4F5F7; /* soft surface0 */
-    -fx-font-family: "SF Pro", "Roboto", sans-serif;
+    -fx-background-color: #f6f7fb;
+    -fx-font-family: "SF Pro Text", "Segoe UI", Roboto, Arial;
 }
 
-/* -----------------------------
-   LABELS & TITLES
------------------------------- */
-.label {
-    -fx-text-fill: #2A2A2A;
-    -fx-font-size: 13px;
-}
+/* ------------------------------------------
+   TEXT & LABELS
+   ------------------------------------------ */
 
 .title {
-    -fx-text-fill: #1E1E1E;
     -fx-font-size: 22px;
-    -fx-font-weight: bold;
+    -fx-font-weight: 600;
+    -fx-text-fill: #333;
 }
 
-/* -----------------------------
-   BUTTONS — MATERIAL PASTEL FILLED
------------------------------- */
+.right-section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #444;
+}
+
+.bottom-pane-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666;
+    -fx-padding: 0 0 5 0;
+}
+
+/* ------------------------------------------
+   BUTTONS — Pastel Blue / Peach style
+   ------------------------------------------ */
+
 .button {
-    -fx-background-color: #7DB7F5; /* softer #4A90E2 */
-    -fx-text-fill: white;
-    -fx-background-radius: 20;
-    -fx-padding: 8 20;
+    -fx-background-color: #bad8ff;
+    -fx-text-fill: #2a2a2a;
     -fx-font-size: 14px;
     -fx-font-weight: 500;
+    -fx-padding: 8 18;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-radius: 12;
 }
 
 .button:hover {
-    -fx-background-color: #6CA9EB;
+    -fx-background-color: #a7cbff;
 }
 
 .button:pressed {
-    -fx-background-color: #5897DD;
+    -fx-background-color: #8fb8f4;
 }
 
-.button:disabled {
-    -fx-background-color: #D0DFF1;
-    -fx-text-fill: #A6A6A6;
-}
-
-/* Toolbar buttons look nicer as pills */
-#monthViewButton,
-#weekViewButton,
-#dayViewButton,
+/* Logout button (Peach color) */
 #backButton {
-    -fx-background-radius: 22;
+    -fx-background-color: #ffccb8;
 }
 
-/* -----------------------------
-   CALENDAR CELLS
------------------------------- */
+#backButton:hover {
+    -fx-background-color: #ffbca1;
+}
+
+#backButton:pressed {
+    -fx-background-color: #f5a289;
+}
+
+/* ------------------------------------------
+   CALENDAR CELLS (Month/Week/Day)
+   ------------------------------------------ */
+
 .day-cell {
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #D8D9DD;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e3e6;
     -fx-border-radius: 12;
     -fx-background-radius: 12;
-    -fx-padding: 10;
-    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.04), 6, 0, 0, 1);
+    -fx-padding: 6;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 4, 0, 0, 1);
+    -fx-cursor: hand;
 }
 
 .day-cell:hover {
-    -fx-background-color: #F0F3F8; /* soft hover */
+    -fx-background-color: #f0f4ff;
 }
 
-/* Selected day */
 .calendar-day-selected {
-    -fx-background-color: #E6F1FF; /* pastel blue */
-    -fx-border-color: #7DB7F5;
-    -fx-border-width: 2;
-    -fx-background-radius: 12;
-    -fx-border-radius: 12;
+    -fx-background-color: #bfd7ff;
+    -fx-border-color: #94b7ff;
 }
 
 .calendar-day-number {
-    -fx-text-fill: #2E2E2E;
-    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #333;
 }
 
-/* Today outline */
-.day-cell-today {
-    -fx-border-color: #7DB7F5;
-    -fx-border-width: 2;
-}
-
-/* Reminder indicator */
 .calendar-reminder-icon {
-    -fx-text-fill: #79C89D; /* pastel green */
     -fx-font-size: 11px;
-    -fx-font-weight: bold;
+    -fx-text-fill: #4b8cff;
 }
 
-/* -----------------------------
-   LIST VIEW (cards)
------------------------------- */
+/* ------------------------------------------
+   LISTVIEW (Selected Day / Upcoming)
+   ------------------------------------------ */
+
 .list-view {
-    -fx-background-color: #FFFFFF;
-    -fx-control-inner-background: #FFFFFF;
-    -fx-background-radius: 12;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e0e2e7;
     -fx-border-radius: 12;
-    -fx-border-color: #D8D9DD;
-    -fx-padding: 8;
-    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.06), 8, 0, 0, 2);
+    -fx-background-radius: 12;
+    -fx-padding: 5;
 }
 
 .list-cell {
     -fx-background-color: transparent;
-    -fx-text-fill: #2A2A2A;
-    -fx-padding: 10 12;
+    -fx-padding: 8;
+    -fx-text-fill: #333;
 }
 
 .list-cell:filled:selected {
-    -fx-background-color: #7DB7F5; /* pastel blue */
-    -fx-text-fill: white;
+    -fx-background-color: #cfe0ff;
+    -fx-text-fill: #1c1c1c;
     -fx-background-radius: 8;
 }
 
-/* -----------------------------
-   TEXT FIELDS & COMBOBOXES
------------------------------- */
+.list-cell:hover {
+    -fx-background-color: #edf3ff;
+}
+
+/* ------------------------------------------
+   TEXT INPUTS (Title / Description)
+   ------------------------------------------ */
+
 .text-field,
-.text-area,
-.combo-box-base {
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #D8D9DD;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-    -fx-padding: 8;
-    -fx-text-fill: #2A2A2A;
+.text-area {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d3d7de;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 8 12;
+    -fx-font-size: 14px;
 }
 
 .text-field:focused,
-.text-area:focused,
-.combo-box-base:focused {
-    -fx-border-color: #7DB7F5;
-    -fx-border-width: 1.5;
+.text-area:focused {
+    -fx-border-color: #9ebfff;
 }
 
-.text-field .prompt-text,
-.text-area .prompt-text {
-    -fx-fill: #7E868F;
+/* ------------------------------------------
+   COMBOBOX — FIXED + PASTEL
+   ------------------------------------------ */
+
+.combo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d0d5dd;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 0 6;
 }
 
-/* -----------------------------
-   BOTTOM LABELS
------------------------------- */
-.bottom-pane-label {
-    -fx-text-fill: #7E868F;
+.combo-box:hover {
+    -fx-border-color: #b2c4ff;
+}
+
+/* Remove blue block issue */
+.combo-box .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 8;
     -fx-font-size: 14px;
+}
+
+.combo-box-popup .list-view .list-cell:selected {
+    -fx-background-color: #a5c8ff;
+    -fx-text-fill: white;
+}
+
+/* Arrow fix */
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.combo-box .arrow {
+    -fx-background-color: #555;
+}
+
+/* Ensure editor region doesn't become blue */
+.combo-box-base .text-input {
+    -fx-background-color: transparent;
+}
+
+/* ------------------------------------------
+   SCROLLBAR (for Upcoming)
+   ------------------------------------------ */
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #c9d7f8;
+    -fx-background-radius: 8;
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #b5c9f5;
 }

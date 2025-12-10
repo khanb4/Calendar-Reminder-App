@@ -16,23 +16,17 @@
     <children>
         <StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-            <VBox alignment="CENTER" prefHeight="360.0" spacing="18.0" styleClass="container">
-            <Button fx:id="dashboardButton" mnemonicParsing="false" text="Button" visible="false" />
+            <VBox alignment="CENTER" spacing="18.0" prefHeight="360.0" styleClass="container" StackPane.alignment="CENTER">
 
-                <HBox alignment="CENTER" spacing="10" styleClass="title-box">
-                    <ImageView fitHeight="28" fitWidth="28" preserveRatio="true" styleClass="logo">
-                        <image>
-                            <Image url="@calendar_icon.png" />
-                        </image>
-                    </ImageView>
+                <HBox alignment="CENTER" spacing="10" styleClass="title-box" maxWidth="-1">
                     <Label styleClass="title" text="Calendar Reminder App" />
                 </HBox>
 
-                <TextField fx:id="usernameField" promptText="Please Enter Your Username" styleClass="text-field" />
-                <PasswordField fx:id="passwordField" promptText="Please Enter Your Password" styleClass="password-field" />
+                <TextField fx:id="usernameField" promptText="Please Enter Your Username" styleClass="text-field" maxWidth="350" prefWidth="350" />
+                <PasswordField fx:id="passwordField" promptText="Please Enter Your Password" styleClass="password-field" maxWidth="350" prefWidth="350" />
 
-                <Button fx:id="loginButton" styleClass="button-primary" text="Login" />
-                <Button fx:id="registerButton" styleClass="button-secondary" text="Create an account" />
+                <Button fx:id="loginButton" styleClass="button-primary" text="Login" prefWidth="180" maxWidth="180" />
+                <Button fx:id="registerButton" styleClass="button-secondary" text="Create an account" prefWidth="180" maxWidth="180" />
 
                 <Label fx:id="messageLabel" styleClass="message-label" />
             </VBox>
