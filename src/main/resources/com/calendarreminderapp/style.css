@@ -201,3 +201,49 @@
 .scroll-bar:vertical .thumb:hover {
     -fx-background-color: #b5c9f5;
 }
+
+/* ------------------------------------------
+   YEAR VIEW — Pastel Month Cards (Option A)
+   ------------------------------------------ */
+
+.year-month-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: #d8e1f5;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0.15, 0, 3);
+    -fx-padding: 14 18 14 18;
+    -fx-cursor: hand;
+}
+
+.year-month-card:hover {
+    -fx-background-color: #f2f6ff;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 16, 0.2, 0, 3);
+}
+
+.year-month-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4b587c;
+    -fx-alignment: center;
+}
+
+.year-day-number {
+    -fx-font-size: 12px;
+    -fx-text-fill: #333;
+    -fx-padding: 4 6 4 6;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.year-day-number:hover {
+    -fx-background-color: #e4ecff;
+}
+
+.year-day-number:selected,
+.year-day-number:focused {
+    -fx-background-color: #c9dbff;
+    -fx-text-fill: #222;
+    -fx-background-radius: 6;
+}

@@ -28,6 +28,7 @@
             <Button fx:id="monthViewButton" text="Month" onAction="#handleMonthView"/>
             <Button fx:id="weekViewButton" text="Week" onAction="#handleWeekView"/>
             <Button fx:id="dayViewButton" text="Day" onAction="#handleDayView"/>
+            <Button fx:id="yearViewButton" text="Year" onAction="#handleYearView"/>
 
             <!-- Logout -->
             <Button fx:id="backButton" text="Logout" onAction="#handleLogout"/>
