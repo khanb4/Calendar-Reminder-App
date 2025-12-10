@@ -20,7 +20,7 @@ import java.util.List;
 
 public class CalendarController {
 
-    private enum ViewMode { MONTH, WEEK, DAY }
+    private enum ViewMode { YEAR, MONTH, WEEK, DAY }
     private ViewMode currentViewMode = ViewMode.MONTH;
 
     @FXML private Label monthYearLabel;
@@ -44,6 +44,7 @@ public class CalendarController {
     @FXML private Button monthViewButton;
     @FXML private Button weekViewButton;
     @FXML private Button dayViewButton;
+    @FXML private Button yearViewButton;
 
     private ReminderRepository reminderRepository;
     private String currentUser;
@@ -144,6 +145,7 @@ public class CalendarController {
             case MONTH -> currentYearMonth = currentYearMonth.minusMonths(1);
             case WEEK -> selectedDate = selectedDate.minusWeeks(1);
             case DAY -> selectedDate = selectedDate.minusDays(1);
+            case YEAR -> currentYearMonth = currentYearMonth.minusYears(1);
         }
         refresh();
     }
@@ -154,6 +156,7 @@ public class CalendarController {
             case MONTH -> currentYearMonth = currentYearMonth.plusMonths(1);
             case WEEK -> selectedDate = selectedDate.plusWeeks(1);
             case DAY -> selectedDate = selectedDate.plusDays(1);
+            case YEAR -> currentYearMonth = currentYearMonth.plusYears(1);
         }
         refresh();
     }
@@ -164,6 +167,7 @@ public class CalendarController {
         monthViewButton.setDisable(true);
         weekViewButton.setDisable(false);
         dayViewButton.setDisable(false);
+        yearViewButton.setDisable(false);
         refresh();
     }
 
@@ -173,6 +177,7 @@ public class CalendarController {
         monthViewButton.setDisable(false);
         weekViewButton.setDisable(true);
         dayViewButton.setDisable(false);
+        yearViewButton.setDisable(false);
         refresh();
     }
 
@@ -182,6 +187,17 @@ public class CalendarController {
         monthViewButton.setDisable(false);
         weekViewButton.setDisable(false);
         dayViewButton.setDisable(true);
+        yearViewButton.setDisable(false);
+        refresh();
+    }
+
+    @FXML
+    private void handleYearView() {
+        currentViewMode = ViewMode.YEAR;
+        yearViewButton.setDisable(true);
+        monthViewButton.setDisable(false);
+        weekViewButton.setDisable(false);
+        dayViewButton.setDisable(false);
         refresh();
     }
 
@@ -352,6 +368,7 @@ public class CalendarController {
         calendarGrid.getRowConstraints().clear();
 
         switch (currentViewMode) {
+            case YEAR -> buildYearView();
             case MONTH -> buildMonthView();
             case WEEK -> buildWeekView();
             case DAY -> buildDayView();
@@ -359,6 +376,72 @@ public class CalendarController {
 
         updateMonthLabel();
         highlightSelectedDay();
+    }
+
+    private VBox buildMonthCard(YearMonth ym) {
+        VBox box = new VBox();
+        box.getStyleClass().add("year-month-card");
+        box.setSpacing(6);
+        box.setPadding(new Insets(10));
+
+        Label title = new Label(ym.getMonth().name());
+        title.getStyleClass().add("year-month-title");
+        box.getChildren().add(title);
+
+        LocalDate first = ym.atDay(1);
+        int length = ym.lengthOfMonth();
+
+        FlowPane grid = new FlowPane();
+        grid.setHgap(4);
+        grid.setVgap(4);
+
+        for (int d = 1; d <= length; d++) {
+            LocalDate date = ym.atDay(d);
+            Label dayLabel = new Label(String.valueOf(d));
+            dayLabel.getStyleClass().add("year-day-number");
+
+            dayLabel.setOnMouseClicked(e -> {
+                selectedDate = date;
+                currentYearMonth = ym;
+                currentViewMode = ViewMode.MONTH;
+                refresh();
+            });
+
+            grid.getChildren().add(dayLabel);
+        }
+
+        box.getChildren().add(grid);
+        return box;
+    }
+
+    private void buildYearView() {
+        calendarGrid.getChildren().clear();
+        calendarGrid.getColumnConstraints().clear();
+        calendarGrid.getRowConstraints().clear();
+
+        // 4 rows × 3 columns = 12 months
+        for (int c = 0; c < 3; c++) {
+            ColumnConstraints cc = new ColumnConstraints();
+            cc.setPercentWidth(100.0 / 3);
+            cc.setHgrow(Priority.ALWAYS);
+            calendarGrid.getColumnConstraints().add(cc);
+        }
+        for (int r = 0; r < 4; r++) {
+            RowConstraints rc = new RowConstraints();
+            rc.setPercentHeight(100.0 / 4);
+            rc.setVgrow(Priority.ALWAYS);
+            calendarGrid.getRowConstraints().add(rc);
+        }
+
+        for (int i = 0; i < 12; i++) {
+            YearMonth ym = YearMonth.of(currentYearMonth.getYear(), i + 1);
+            VBox monthCard = buildMonthCard(ym);
+            int row = i / 3;
+            int col = i % 3;
+            calendarGrid.add(monthCard, col, row);
+        }
+
+        monthYearLabel.setText(String.valueOf(currentYearMonth.getYear()));
     }
 
     private void buildMonthView() {
@@ -599,6 +682,8 @@ public class CalendarController {
 
     private void updateMonthLabel() {
         switch (currentViewMode) {
+            case YEAR ->
+                    monthYearLabel.setText(String.valueOf(currentYearMonth.getYear()));
             case MONTH ->
                     monthYearLabel.setText(currentYearMonth.format(DateTimeFormatter.ofPattern("MMMM yyyy")));
             case WEEK ->
