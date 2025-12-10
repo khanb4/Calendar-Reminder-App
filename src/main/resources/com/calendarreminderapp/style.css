@@ -1,220 +1,160 @@
-/* ===========================
-   GLOBAL LAYOUT / BACKGROUND
-   =========================== */
+/* ============================================================
+   JAVA FX — MATERIAL PASTEL LIGHT THEME (SOFT VERSION)
+   ============================================================ */
 
+/* -----------------------------
+   GENERAL COLORS
+------------------------------ */
 .root-pane {
-    -fx-background-color: #0b0710;
+    -fx-background-color: #F4F5F7; /* soft surface0 */
+    -fx-font-family: "SF Pro", "Roboto", sans-serif;
 }
 
-.container {
-    -fx-background-color: #1b1024;
-    -fx-padding: 24;
-    -fx-spacing: 16;
-    -fx-background-radius: 16;
-    -fx-border-radius: 16;
-    -fx-border-color: #3b1639;
-}
-
+/* -----------------------------
+   LABELS & TITLES
+------------------------------ */
 .label {
-    -fx-text-fill: #fdf2e9;
+    -fx-text-fill: #2A2A2A;
+    -fx-font-size: 13px;
 }
 
 .title {
-    -fx-text-fill: #ffe7c7;
+    -fx-text-fill: #1E1E1E;
     -fx-font-size: 22px;
     -fx-font-weight: bold;
 }
 
-.message-label {
-    -fx-text-fill: #fbbf77;
-    -fx-font-size: 12px;
-}
-
-/* ===========================
-   BUTTONS
-   =========================== */
-
-.button,
-.button-primary {
-    -fx-background-color: #f97316;
-    -fx-text-fill: #1b1024;
-    -fx-font-weight: bold;
-    -fx-background-radius: 999;
-    -fx-border-radius: 999;
-    -fx-border-color: transparent;
+/* -----------------------------
+   BUTTONS — MATERIAL PASTEL FILLED
+------------------------------ */
+.button {
+    -fx-background-color: #7DB7F5; /* softer #4A90E2 */
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
     -fx-padding: 8 20;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
 }
 
-.button:hover,
-.button-primary:hover {
-    -fx-background-color: #fb923c;
+.button:hover {
+    -fx-background-color: #6CA9EB;
 }
 
-.button-secondary {
-    -fx-background-color: transparent;
-    -fx-text-fill: #fed7aa;
-    -fx-font-weight: bold;
-    -fx-border-color: #f97316;
-    -fx-border-radius: 999;
-    -fx-background-radius: 999;
-    -fx-padding: 8 20;
+.button:pressed {
+    -fx-background-color: #5897DD;
 }
 
-.button-secondary:hover {
-    -fx-background-color: #1f2937;
+.button:disabled {
+    -fx-background-color: #D0DFF1;
+    -fx-text-fill: #A6A6A6;
 }
 
-/* ===========================
-   TEXTFIELDS / TEXTAREAS
-   =========================== */
-
-.text-field,
-.password-field,
-.text-area,
-.text-area .content {
-    -fx-background-color: #130c1b;
-    -fx-text-fill: #fef3c7;
-    -fx-prompt-text-fill: #f97316;
-    -fx-border-color: #4c1d35;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-    -fx-padding: 6 10;
-    -fx-pref-width: 260;
+/* Toolbar buttons look nicer as pills */
+#monthViewButton,
+#weekViewButton,
+#dayViewButton,
+#backButton {
+    -fx-background-radius: 22;
 }
 
-.text-field:focused,
-.password-field:focused,
-.text-area:focused {
-    -fx-border-color: #fb923c;
-}
-
-.text-input {
-    -fx-control-inner-background: #130c1b;
-    -fx-text-fill: #fef3c7;
-}
-
-/* ===========================
-   COMBOBOXES
-   =========================== */
-
-.combo-box,
-.combo-box-base {
-    -fx-background-color: #130c1b;
-    -fx-border-color: #4c1d35;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-    -fx-text-fill: #fef3c7;
-}
-
-.combo-box .list-cell {
-    -fx-text-fill: #fef3c7;
-    -fx-background-color: #130c1b;
-}
-
-/* ===========================
-   SCROLLPANE & LISTVIEW
-   =========================== */
-
-.scroll-pane,
-.scroll-pane .viewport {
-    -fx-background-color: #130c1b;
-}
-
-.list-view {
-    -fx-background-color: #130c1b;
-    -fx-control-inner-background: #130c1b;
-    -fx-border-color: #3b1639;
-    -fx-border-width: 1;
-    -fx-background-radius: 6;
-    -fx-border-radius: 6;
-}
-
-.list-cell {
-    -fx-text-fill: #fef3c7;
-    -fx-background-color: #130c1b;
-    -fx-padding: 6 8;
-}
-
-.list-cell:filled:selected,
-.list-cell:filled:selected:focused {
-    -fx-background-color: #f97316;
-    -fx-text-fill: #1b1024;
-}
-
-/* Scrollbar */
-.scroll-bar {
-    -fx-background-color: #130c1b;
-}
-
-.scroll-bar .thumb {
-    -fx-background-color: #4c1d35;
-}
-
-/* ===========================
-   CALENDAR STYLES
-   =========================== */
-
-.calendar-toolbar {
-    -fx-padding: 10 16;
-    -fx-background-color: #1b1024;
-    -fx-border-color: #3b1639;
-    -fx-border-width: 0 0 1 0;
-}
-
-.calendar-main {
-    -fx-background-color: #130c1b;
-}
-
-.calendar-header {
-    -fx-text-fill: #fed7aa;
-    -fx-font-weight: bold;
-    -fx-padding: 4 0;
-}
-
+/* -----------------------------
+   CALENDAR CELLS
+------------------------------ */
 .day-cell {
-    -fx-background-color: #130c1b;
-    -fx-border-color: #3b1639;
-    -fx-border-width: 1;
-    -fx-background-radius: 8;
-    -fx-border-radius: 8;
-    -fx-pref-width: 100;
-    -fx-pref-height: 90;
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #D8D9DD;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.04), 6, 0, 0, 1);
 }
 
 .day-cell:hover {
-    -fx-background-color: #1f2937;
+    -fx-background-color: #F0F3F8; /* soft hover */
+}
+
+/* Selected day */
+.calendar-day-selected {
+    -fx-background-color: #E6F1FF; /* pastel blue */
+    -fx-border-color: #7DB7F5;
+    -fx-border-width: 2;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
 }
 
 .calendar-day-number {
-    -fx-text-fill: #fffbeb;
+    -fx-text-fill: #2E2E2E;
     -fx-font-weight: bold;
 }
 
-.calendar-day-selected {
-    -fx-background-color: #3b1639;
-    -fx-border-color: #f97316;
+/* Today outline */
+.day-cell-today {
+    -fx-border-color: #7DB7F5;
     -fx-border-width: 2;
 }
 
-.calendar-reminder-dot,
+/* Reminder indicator */
 .calendar-reminder-icon {
-    -fx-text-fill: #fb923c;
-    -fx-font-size: 10px;
-}
-
-.calendar-selected-label {
-    -fx-text-fill: #fed7aa;
-    -fx-font-size: 12px;
-}
-
-.calendar-bottom {
-    -fx-background-color: #1b1024;
-    -fx-border-color: #3b1639;
-    -fx-border-width: 1 0 0 0;
-}
-
-.bottom-pane-label {
-    -fx-text-fill: #fdf2e9;
+    -fx-text-fill: #79C89D; /* pastel green */
+    -fx-font-size: 11px;
     -fx-font-weight: bold;
-    -fx-font-size: 13px;
+}
+
+/* -----------------------------
+   LIST VIEW (cards)
+------------------------------ */
+.list-view {
+    -fx-background-color: #FFFFFF;
+    -fx-control-inner-background: #FFFFFF;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: #D8D9DD;
+    -fx-padding: 8;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.06), 8, 0, 0, 2);
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2A2A2A;
+    -fx-padding: 10 12;
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: #7DB7F5; /* pastel blue */
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+}
+
+/* -----------------------------
+   TEXT FIELDS & COMBOBOXES
+------------------------------ */
+.text-field,
+.text-area,
+.combo-box-base {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #D8D9DD;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8;
+    -fx-text-fill: #2A2A2A;
+}
+
+.text-field:focused,
+.text-area:focused,
+.combo-box-base:focused {
+    -fx-border-color: #7DB7F5;
+    -fx-border-width: 1.5;
+}
+
+.text-field .prompt-text,
+.text-area .prompt-text {
+    -fx-fill: #7E868F;
+}
+
+/* -----------------------------
+   BOTTOM LABELS
+------------------------------ */
+.bottom-pane-label {
+    -fx-text-fill: #7E868F;
+    -fx-font-size: 14px;
 }
