@@ -6,6 +6,7 @@ package com.calendarreminderapp.database;
  */
 public class Reminder {
 
+    private String id;          // Firestore document ID
     private String username;
     private String date;        // e.g. "2025-12-01"
     private String title;
@@ -21,6 +22,7 @@ public class Reminder {
                     String title,
                     String description,
                     String time) {
+
         this.username = username;
         this.date = date;
         this.title = title;
@@ -28,7 +30,17 @@ public class Reminder {
         this.time = time;
     }
 
-    // Getters and setters (needed by Firestore)
+    // --------------------
+    // Getters & Setters
+    // --------------------
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -72,6 +84,6 @@ public class Reminder {
 
     @Override
     public String toString() {
-        return title;
+        return time + " — " + title;
     }
 }

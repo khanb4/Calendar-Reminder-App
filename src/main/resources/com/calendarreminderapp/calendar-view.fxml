@@ -9,7 +9,7 @@
             stylesheets="@style.css"
             styleClass="root-pane">
 
-    <!-- ===== TOP BAR ===== -->
+    <!-- ========== TOP BAR ========== -->
     <top>
         <HBox spacing="10" alignment="CENTER_LEFT">
             <padding>
@@ -25,31 +25,23 @@
             <Pane HBox.hgrow="ALWAYS"/>
 
             <!-- View toggle buttons -->
-            <Button fx:id="monthViewButton"
-                    text="Month"
-                    onAction="#handleMonthView"/>
-
-            <Button fx:id="weekViewButton"
-                    text="Week"
-                    onAction="#handleWeekView"/>
-
-            <Button fx:id="dayViewButton"
-                    text="Day"
-                    onAction="#handleDayView"/>
+            <Button fx:id="monthViewButton" text="Month" onAction="#handleMonthView"/>
+            <Button fx:id="weekViewButton" text="Week" onAction="#handleWeekView"/>
+            <Button fx:id="dayViewButton" text="Day" onAction="#handleDayView"/>
 
             <!-- Logout -->
             <Button fx:id="backButton" text="Logout" onAction="#handleLogout"/>
         </HBox>
     </top>
 
-    <!-- ===== CENTER CONTENT ===== -->
+    <!-- ========== CENTER CONTENT ========== -->
     <center>
         <HBox spacing="30">
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
 
-            <!-- CALENDAR AREA -->
+            <!-- ===== CALENDAR AREA ===== -->
             <VBox spacing="15" HBox.hgrow="ALWAYS">
                 <GridPane fx:id="calendarGrid"
                           hgap="10" vgap="10"
@@ -57,17 +49,15 @@
                           HBox.hgrow="ALWAYS"
                           maxWidth="Infinity"
                           maxHeight="Infinity"/>
-
                 <Label fx:id="selectedDateLabel" styleClass="bottom-pane-label"/>
             </VBox>
 
-            <!-- REMINDERS (TWO COLUMNS + BUTTONS) -->
+            <!-- ===== REMINDER LISTS / EDIT BUTTONS ===== -->
             <VBox spacing="10" prefWidth="450" maxWidth="450">
 
-                <!-- Two reminder columns -->
                 <HBox spacing="20">
 
-                    <!-- Selected Day -->
+                    <!-- Selected day reminders -->
                     <VBox spacing="10" prefWidth="225" maxWidth="225">
                         <Label text="Selected Day" styleClass="right-section-title"/>
                         <ListView fx:id="dayRemindersList"
@@ -75,7 +65,7 @@
                                   VBox.vgrow="ALWAYS"/>
                     </VBox>
 
-                    <!-- Upcoming -->
+                    <!-- Upcoming reminders -->
                     <VBox spacing="10" prefWidth="225" maxWidth="225">
                         <Label text="Upcoming" styleClass="right-section-title"/>
                         <ListView fx:id="upcomingRemindersList"
@@ -102,7 +92,7 @@
         </HBox>
     </center>
 
-    <!-- ===== ADD REMINDER FORM ===== -->
+    <!-- ========== ADD REMINDER FORM ========== -->
     <bottom>
         <VBox spacing="12">
             <padding>

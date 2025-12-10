@@ -23,6 +23,7 @@ public class ReminderRepository {
         this.remindersRef = db.collection("reminders");
     }
 
+    // ADD REMINDER
     public void addReminder(String username,
                             LocalDate date,
                             String title,
@@ -30,106 +31,91 @@ public class ReminderRepository {
                             String time)
             throws ExecutionException, InterruptedException {
 
-        // Store date as ISO string so Firestore can serialize it
-        String dateString = date.toString();   // "2025-12-01"
+        Reminder reminder = new Reminder(
+                username,
+                date.toString(),
+                title,
+                description,
+                time
+        );
 
-        Reminder reminder = new Reminder(username, dateString, title, description, time);
-
-        ApiFuture<?> future = remindersRef.add(reminder);
-        future.get(); // wait for write to complete (OK for school project)
-
-        System.out.println("✅ Reminder added for " + username + " on " + dateString);
+        remindersRef.add(reminder).get();
     }
 
+    // GET REMINDERS FOR DATE
     public List<Reminder> getRemindersForDate(String username, LocalDate date)
             throws ExecutionException, InterruptedException {
 
-        String dateString = date.toString();
-
         Query query = remindersRef
                 .whereEqualTo("username", username)
-                .whereEqualTo("date", dateString);
+                .whereEqualTo("date", date.toString());
 
-        ApiFuture<QuerySnapshot> future = query.get();
-        QuerySnapshot snapshot = future.get();
+        QuerySnapshot snapshot = query.get().get();
 
-        List<Reminder> result = new ArrayList<>();
+        List<Reminder> list = new ArrayList<>();
         for (QueryDocumentSnapshot doc : snapshot.getDocuments()) {
-            Reminder reminder = doc.toObject(Reminder.class);
-            result.add(reminder);
+            Reminder r = doc.toObject(Reminder.class);
+            r.setId(doc.getId());
+            list.add(r);
         }
-        return result;
+        return list;
     }
 
-    // All reminders for the whole month
-    public List<Reminder> getRemindersForMonth(String username, YearMonth yearMonth)
-            throws ExecutionException, InterruptedException {
-
-        String start = yearMonth.atDay(1).toString();        // e.g. 2025-12-01
-        String end   = yearMonth.atEndOfMonth().toString();  // e.g. 2025-12-31
-
-        // Get all reminders for this user, then filter by date here
-        Query query = remindersRef.whereEqualTo("username", username);
-
-        ApiFuture<QuerySnapshot> future = query.get();
-        QuerySnapshot snapshot = future.get();
-
-        List<Reminder> result = new ArrayList<>();
-        for (QueryDocumentSnapshot doc : snapshot.getDocuments()) {
-            Reminder reminder = doc.toObject(Reminder.class);
-            String dateStr = reminder.getDate();
-            if (dateStr != null &&
-                    dateStr.compareTo(start) >= 0 &&
-                    dateStr.compareTo(end)   <= 0) {
-                result.add(reminder);
-            }
-        }
-        return result;
-    }
-
-    // Upcoming reminders (used for "Upcoming Reminders" list)
+    // GET UPCOMING REMINDERS
     public List<Reminder> getUpcomingReminders(String username)
             throws ExecutionException, InterruptedException {
 
-        ApiFuture<QuerySnapshot> future = remindersRef
+        QuerySnapshot snapshot = remindersRef
                 .whereEqualTo("username", username)
                 .orderBy("date")
                 .orderBy("time")
+                .get()
                 .get();
 
-        return future.get().toObjects(Reminder.class);
+        List<Reminder> list = new ArrayList<>();
+        for (QueryDocumentSnapshot doc : snapshot.getDocuments()) {
+            Reminder r = doc.toObject(Reminder.class);
+            r.setId(doc.getId());
+            list.add(r);
+        }
+        return list;
     }
 
-    // Delete a reminder that matches user + date + time + title
-    public void deleteReminder(String username,
-                               String dateString,
-                               String time,
-                               String title)
+    // DELETE REMINDER BY ID
+    public void deleteReminder(Reminder reminder)
             throws ExecutionException, InterruptedException {
 
-        Query query = remindersRef
-                .whereEqualTo("username", username)
-                .whereEqualTo("date", dateString)
-                .whereEqualTo("time", time)
-                .whereEqualTo("title", title);
+        if (reminder == null || reminder.getId() == null) return;
 
-        ApiFuture<QuerySnapshot> future = query.get();
-        QuerySnapshot snapshot = future.get();
-
-        for (QueryDocumentSnapshot doc : snapshot.getDocuments()) {
-            doc.getReference().delete();
-        }
+        remindersRef.document(reminder.getId()).delete().get();
     }
 
-    // Update a reminder (find by old values, write new values)
-    public void updateReminder(String username,
-                               String originalDateString,
-                               String originalTime,
-                               String originalTitle,
+    // UPDATE REMINDER BY ID
+    public void updateReminder(Reminder reminder,
                                LocalDate newDate,
                                String newTitle,
                                String newDescription,
                                String newTime)
+            throws ExecutionException, InterruptedException {
+
+        if (reminder == null || reminder.getId() == null) return;
+
+        remindersRef.document(reminder.getId()).update(
+                "date", newDate.toString(),
+                "title", newTitle,
+                "description", newDescription,
+                "time", newTime
+        ).get();
+    }
+    // Update a reminder by matching old values (username + date + time + title)
+    public void updateReminderByFields(String username,
+                                       String originalDateString,
+                                       String originalTime,
+                                       String originalTitle,
+                                       LocalDate newDate,
+                                       String newTitle,
+                                       String newDescription,
+                                       String newTime)
             throws ExecutionException, InterruptedException {
 
         String newDateString = newDate.toString();

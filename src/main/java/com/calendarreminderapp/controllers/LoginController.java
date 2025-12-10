@@ -1,14 +1,12 @@
 package com.calendarreminderapp.controllers;
 
 import com.calendarreminderapp.database.UserRepository;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -68,13 +66,15 @@ public class LoginController {
             );
             Parent root = loader.load();
 
-            // Pass logged-in user into the calendar
             CalendarController controller = loader.getController();
-            controller.setCurrentUser(username);
+
+            // ⭐ FIX: ensures FXML loads BEFORE controller logic runs
+            Platform.runLater(() -> controller.setCurrentUser(username));
 
             Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.setScene(new Scene(root, 1200, 650)); // size to match your calendar window
+            stage.setScene(new Scene(root, 1200, 650));
             stage.show();
+
         } catch (IOException ex) {
             ex.printStackTrace();
             messageLabel.setText("Unable to open calendar.");
