@@ -255,3 +255,43 @@
     -fx-text-fill: #222;
     -fx-background-radius: 6;
 }
+
+.day-time-label {
+    -fx-text-fill: #5F6368;
+    -fx-font-size: 12px;
+}
+
+.day-slot {
+    -fx-border-color: #E6E6E6;
+    -fx-border-width: 0 0 1 0;   /* horizontal lines */
+    -fx-background-color: transparent;
+}
+
+.day-event {
+    -fx-background-color: #DCEBFF;
+    -fx-background-radius: 8;
+    -fx-padding: 6;
+}
+
+.day-event-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #1F1F1F;
+}
+
+.day-event-separator {
+    -fx-background-color: #E0E0E0;
+    -fx-max-height: 1;
+    -fx-opacity: 0.6;
+}
+
+.day-event {
+    -fx-background-color: #DCEBFF;
+    -fx-background-radius: 8;
+    -fx-padding: 6;
+    -fx-max-width: 260px;
+}
+
+.day-event-vsep {
+    -fx-opacity: 0.4;
+}
+

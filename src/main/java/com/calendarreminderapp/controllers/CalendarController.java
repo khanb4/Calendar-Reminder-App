@@ -11,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.geometry.Orientation;
+
 
 import java.io.IOException;
 import java.time.*;
@@ -51,6 +53,9 @@ public class CalendarController {
 
     private YearMonth currentYearMonth = YearMonth.now();
     private LocalDate selectedDate = LocalDate.now();
+
+    private final Pane[] daySlots = new Pane[24];
+
 
     private Reminder selectedReminder;
 
@@ -596,21 +601,42 @@ public class CalendarController {
         calendarGrid.getColumnConstraints().clear();
         calendarGrid.getRowConstraints().clear();
 
-        ColumnConstraints cc = new ColumnConstraints();
-        cc.setPercentWidth(100);
-        cc.setHgrow(Priority.ALWAYS);
-        calendarGrid.getColumnConstraints().add(cc);
+        // 2 columns: time labels + event grid
+        ColumnConstraints timeCol = new ColumnConstraints();
+        timeCol.setMinWidth(90);
+        timeCol.setPrefWidth(90);
+        timeCol.setHgrow(Priority.NEVER);
+
+        ColumnConstraints gridCol = new ColumnConstraints();
+        gridCol.setHgrow(Priority.ALWAYS);
+        gridCol.setFillWidth(true);
+
+        calendarGrid.getColumnConstraints().addAll(timeCol, gridCol);
 
         for (int i = 0; i < 24; i++) {
             RowConstraints rc = new RowConstraints();
-            rc.setPercentHeight(100.0 / 24);
-            rc.setVgrow(Priority.ALWAYS);
+            rc.setMinHeight(50);
+            rc.setPrefHeight(50);
+            rc.setVgrow(Priority.NEVER);
             calendarGrid.getRowConstraints().add(rc);
 
-            // ✅ 12-hour label with AM/PM
+            // Time label (12-hr)
             Label hourLabel = new Label(formatHour12(i));
-            hourLabel.setStyle("-fx-text-fill: #5F6368; -fx-padding: 4 0 0 6;");
+            hourLabel.getStyleClass().add("day-time-label");
+            hourLabel.setMinWidth(90);
+            hourLabel.setPadding(new Insets(6, 8, 0, 8));
+
+            // ✅ Slot pane for events (SIDE-BY-SIDE)
+            HBox slot = new HBox(10);
+            slot.getStyleClass().add("day-slot");
+            slot.setAlignment(Pos.CENTER_LEFT);
+            slot.setMinHeight(50);
+            slot.setMaxWidth(Double.MAX_VALUE);
+
+            daySlots[i] = slot;
+
             calendarGrid.add(hourLabel, 0, i);
+            calendarGrid.add(slot, 1, i);
         }
 
         try {
@@ -620,18 +646,25 @@ public class CalendarController {
                 int hour = parseHour(r.getTime());
 
                 VBox eventBox = new VBox();
-                eventBox.setStyle(
-                        "-fx-background-color: #DCEBFF; " +
-                                "-fx-background-radius: 8; " +
-                                "-fx-padding: 6;"
-                );
+                eventBox.getStyleClass().add("day-event");
 
                 Label lbl = new Label(r.getTime() + " — " + r.getTitle());
                 lbl.setWrapText(true);
-                lbl.setStyle("-fx-font-size: 12px; -fx-text-fill: #1F1F1F;");
+                lbl.getStyleClass().add("day-event-text");
                 eventBox.getChildren().add(lbl);
 
-                calendarGrid.add(eventBox, 0, hour);
+                // Put the event inside the hour slot
+                HBox slot = (HBox) daySlots[hour];
+
+                // ✅ add vertical divider if not first item
+                if (!slot.getChildren().isEmpty()) {
+                    Separator sep = new Separator(Orientation.VERTICAL);
+                    sep.getStyleClass().add("day-event-vsep");
+                    slot.getChildren().add(sep);
+                }
+
+                slot.getChildren().add(eventBox);
+                HBox.setMargin(eventBox, new Insets(6, 6, 6, 6));
             }
 
         } catch (Exception e) {
@@ -642,6 +675,9 @@ public class CalendarController {
                 selectedDate.format(DateTimeFormatter.ofPattern("EEEE, MMM d yyyy"))
         );
     }
+
+
+
 
     private String formatHour12(int hour24) {
         int hour12 = hour24 % 12;
