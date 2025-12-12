@@ -11,6 +11,10 @@
    TEXT & LABELS
    ------------------------------------------ */
 
+.label {
+    -fx-text-fill: #333;
+}
+
 .title {
     -fx-font-size: 22px;
     -fx-font-weight: 600;
@@ -27,6 +31,13 @@
     -fx-font-size: 14px;
     -fx-text-fill: #666;
     -fx-padding: 0 0 5 0;
+}
+
+/* Time selector labels (Hr / Min / AM-PM) */
+.timeLabel {
+    -fx-text-fill: #333;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
 }
 
 /* ------------------------------------------
@@ -163,7 +174,6 @@
     -fx-border-color: #b2c4ff;
 }
 
-/* Remove blue block issue */
 .combo-box .list-cell {
     -fx-background-color: transparent;
     -fx-padding: 8;
@@ -175,7 +185,6 @@
     -fx-text-fill: white;
 }
 
-/* Arrow fix */
 .combo-box .arrow-button {
     -fx-background-color: transparent;
 }
@@ -184,7 +193,6 @@
     -fx-background-color: #555;
 }
 
-/* Ensure editor region doesn't become blue */
 .combo-box-base .text-input {
     -fx-background-color: transparent;
 }
@@ -203,7 +211,7 @@
 }
 
 /* ------------------------------------------
-   YEAR VIEW — Pastel Month Cards (Option A)
+   YEAR VIEW — Pastel Month Cards
    ------------------------------------------ */
 
 .year-month-card {

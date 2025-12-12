@@ -132,11 +132,34 @@ public class CalendarController {
         });
     }
 
+    /**
+     * ✅ UPDATED:
+     * - Fill items
+     * - Set DEFAULT selected values so the ComboBoxes are not blank
+     * - Keep formatting consistent with your Reminder time parsing
+     */
     private void setupTimeDropdowns() {
-        for (int i = 1; i <= 12; i++) hourCombo.getItems().add(String.valueOf(i));
-        for (int i = 0; i < 60; i++) minuteCombo.getItems().add(String.format("%02d", i));
+        hourCombo.getItems().clear();
+        minuteCombo.getItems().clear();
+        ampmCombo.getItems().clear();
+
+        // IMPORTANT: Your populateForm() selects hm[0] directly.
+        // If your stored times are like "7:04 AM" (no leading 0),
+        // then hours must be "1".."12" (not "01".."12").
+        for (int i = 1; i <= 12; i++) {
+            hourCombo.getItems().add(String.valueOf(i));
+        }
+
+        for (int i = 0; i < 60; i++) {
+            minuteCombo.getItems().add(String.format("%02d", i));
+        }
+
         ampmCombo.getItems().addAll("AM", "PM");
-        ampmCombo.getSelectionModel().select("AM");
+
+        // ✅ DEFAULTS (this is what makes Hr/Min show like AM/PM does)
+        hourCombo.setValue("1");
+        minuteCombo.setValue("00");
+        ampmCombo.setValue("AM");
     }
 
     @FXML
@@ -329,12 +352,19 @@ public class CalendarController {
         }
     }
 
+    /**
+     * OPTIONAL BEHAVIOR:
+     * If you want Hr/Min to go back to defaults after saving, keep as-is below.
+     * If you want them blank, replace setValue(...) with clearSelection().
+     */
     private void clearForm() {
         titleField.clear();
         descriptionArea.clear();
-        hourCombo.getSelectionModel().clearSelection();
-        minuteCombo.getSelectionModel().clearSelection();
-        ampmCombo.getSelectionModel().select("AM");
+
+        // ✅ default back to a valid time so the fields never look empty
+        hourCombo.setValue("1");
+        minuteCombo.setValue("00");
+        ampmCombo.setValue("AM");
     }
 
     private void updateDayReminders() {
@@ -587,8 +617,8 @@ public class CalendarController {
                 VBox eventBox = new VBox();
                 eventBox.setStyle(
                         "-fx-background-color: #DCEBFF; " +
-                        "-fx-background-radius: 8; " +
-                        "-fx-padding: 6;"
+                                "-fx-background-radius: 8; " +
+                                "-fx-padding: 6;"
                 );
 
                 Label lbl = new Label(r.getTime() + " — " + r.getTitle());

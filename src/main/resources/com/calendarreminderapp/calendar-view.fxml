@@ -35,90 +35,105 @@
         </HBox>
     </top>
 
-    <!-- ========== CENTER CONTENT ========== -->
+    <!-- ========== CENTER CONTENT (SCROLLABLE) ========== -->
     <center>
-        <HBox spacing="30">
-            <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
-            </padding>
+        <ScrollPane fitToWidth="true" pannable="true" styleClass="main-scroll">
+            <content>
+                <VBox spacing="16">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
 
-            <!-- ===== CALENDAR AREA ===== -->
-            <VBox spacing="15" HBox.hgrow="ALWAYS">
-                <GridPane fx:id="calendarGrid"
-                          hgap="10" vgap="10"
-                          VBox.vgrow="ALWAYS"
-                          HBox.hgrow="ALWAYS"
-                          maxWidth="Infinity"
-                          maxHeight="Infinity"/>
-                <Label fx:id="selectedDateLabel" styleClass="bottom-pane-label"/>
-            </VBox>
+                    <!-- ===== CALENDAR + RIGHT PANELS ===== -->
+                    <HBox spacing="30">
 
-            <!-- ===== REMINDER LISTS / EDIT BUTTONS ===== -->
-            <VBox spacing="10" prefWidth="450" maxWidth="450">
+                        <!-- ===== CALENDAR AREA ===== -->
+                        <VBox spacing="15" HBox.hgrow="ALWAYS">
+                            <GridPane fx:id="calendarGrid"
+                                      hgap="10" vgap="10"
+                                      VBox.vgrow="ALWAYS"
+                                      HBox.hgrow="ALWAYS"
+                                      maxWidth="Infinity"
+                                      maxHeight="Infinity"/>
+                            <Label fx:id="selectedDateLabel" styleClass="bottom-pane-label"/>
+                        </VBox>
 
-                <HBox spacing="20">
+                        <!-- ===== REMINDER LISTS / EDIT BUTTONS ===== -->
+                        <VBox spacing="10" prefWidth="450" maxWidth="450">
 
-                    <!-- Selected day reminders -->
-                    <VBox spacing="10" prefWidth="225" maxWidth="225">
-                        <Label text="Selected Day" styleClass="right-section-title"/>
-                        <ListView fx:id="dayRemindersList"
-                                  styleClass="reminder-list"
-                                  VBox.vgrow="ALWAYS"/>
+                            <HBox spacing="20">
+
+                                <!-- Selected day reminders -->
+                                <VBox spacing="10" prefWidth="225" maxWidth="225">
+                                    <Label text="Selected Day" styleClass="right-section-title"/>
+                                    <ListView fx:id="dayRemindersList"
+                                              styleClass="reminder-list"
+                                              VBox.vgrow="ALWAYS"/>
+                                </VBox>
+
+                                <!-- Upcoming reminders -->
+                                <VBox spacing="10" prefWidth="225" maxWidth="225">
+                                    <Label text="Upcoming" styleClass="right-section-title"/>
+                                    <ListView fx:id="upcomingRemindersList"
+                                              styleClass="reminder-list"
+                                              VBox.vgrow="ALWAYS"/>
+                                </VBox>
+
+                            </HBox>
+
+                            <!-- Edit / Delete buttons -->
+                            <HBox spacing="10" alignment="CENTER_RIGHT">
+                                <Button fx:id="editReminderButton"
+                                        text="Edit Reminder"
+                                        prefWidth="140"
+                                        onAction="#handleEditReminder"/>
+
+                                <Button fx:id="deleteReminderButton"
+                                        text="Delete Reminder"
+                                        prefWidth="140"
+                                        onAction="#handleDeleteReminder"/>
+                            </HBox>
+
+                        </VBox>
+                    </HBox>
+
+                    <!-- ========== ADD REMINDER FORM (MOVED INTO SCROLL) ========== -->
+                    <VBox spacing="12">
+
+                        <Label text="Add Reminder" styleClass="bottom-pane-label"/>
+
+                        <TextField fx:id="titleField" promptText="Title"/>
+
+                        <HBox spacing="16" alignment="CENTER_LEFT">
+                            <VBox spacing="4">
+                                <Label text="Hr" styleClass="timeLabel"/>
+                                <ComboBox fx:id="hourCombo" prefWidth="90"/>
+                            </VBox>
+
+                            <VBox spacing="4">
+                                <Label text="Min" styleClass="timeLabel"/>
+                                <ComboBox fx:id="minuteCombo" prefWidth="90"/>
+                            </VBox>
+
+                            <VBox spacing="4">
+                                <Label text="AM/PM" styleClass="timeLabel"/>
+                                <ComboBox fx:id="ampmCombo" prefWidth="90"/>
+                            </VBox>
+                        </HBox>
+
+                        <TextArea fx:id="descriptionArea"
+                                  promptText="Description"
+                                  prefRowCount="2"/>
+
+                        <Button fx:id="addReminderButton"
+                                text="Save Reminder"
+                                prefWidth="200"
+                                onAction="#handleAddReminder"/>
                     </VBox>
 
-                    <!-- Upcoming reminders -->
-                    <VBox spacing="10" prefWidth="225" maxWidth="225">
-                        <Label text="Upcoming" styleClass="right-section-title"/>
-                        <ListView fx:id="upcomingRemindersList"
-                                  styleClass="reminder-list"
-                                  VBox.vgrow="ALWAYS"/>
-                    </VBox>
-
-                </HBox>
-
-                <!-- Edit / Delete buttons -->
-                <HBox spacing="10" alignment="CENTER_RIGHT">
-                    <Button fx:id="editReminderButton"
-                            text="Edit Reminder"
-                            prefWidth="140"
-                            onAction="#handleEditReminder"/>
-
-                    <Button fx:id="deleteReminderButton"
-                            text="Delete Reminder"
-                            prefWidth="140"
-                            onAction="#handleDeleteReminder"/>
-                </HBox>
-
-            </VBox>
-        </HBox>
+                </VBox>
+            </content>
+        </ScrollPane>
     </center>
-
-    <!-- ========== ADD REMINDER FORM ========== -->
-    <bottom>
-        <VBox spacing="12">
-            <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
-            </padding>
-
-            <Label text="Add Reminder" styleClass="bottom-pane-label"/>
-
-            <TextField fx:id="titleField" promptText="Title"/>
-
-            <HBox spacing="10">
-                <ComboBox fx:id="hourCombo"   prefWidth="90" promptText="Hr"/>
-                <ComboBox fx:id="minuteCombo" prefWidth="90" promptText="Min"/>
-                <ComboBox fx:id="ampmCombo"   prefWidth="90" promptText="AM/PM"/>
-            </HBox>
-
-            <TextArea fx:id="descriptionArea"
-                      promptText="Description"
-                      prefRowCount="2"/>
-
-            <Button fx:id="addReminderButton"
-                    text="Save Reminder"
-                    prefWidth="200"
-                    onAction="#handleAddReminder"/>
-        </VBox>
-    </bottom>
 
 </BorderPane>
