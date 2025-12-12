@@ -381,16 +381,20 @@ public class CalendarController {
     private void loadUpcomingReminders() {
         try {
             List<Reminder> list =
-                    reminderRepository.getUpcomingReminders(currentUser);
+                    reminderRepository.getRemindersForMonth(currentUser, currentYearMonth);
+
             list.sort(
                     Comparator.comparing((Reminder r) -> LocalDate.parse(r.getDate()))
                             .thenComparing(Reminder::getTime)
             );
+
             upcomingRemindersList.getItems().setAll(list);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
 
     private void buildCalendar() {
         calendarGrid.getChildren().clear();
@@ -603,7 +607,8 @@ public class CalendarController {
             rc.setVgrow(Priority.ALWAYS);
             calendarGrid.getRowConstraints().add(rc);
 
-            Label hourLabel = new Label(String.format("%02d:00", i));
+            // ✅ 12-hour label with AM/PM
+            Label hourLabel = new Label(formatHour12(i));
             hourLabel.setStyle("-fx-text-fill: #5F6368; -fx-padding: 4 0 0 6;");
             calendarGrid.add(hourLabel, 0, i);
         }
@@ -637,6 +642,15 @@ public class CalendarController {
                 selectedDate.format(DateTimeFormatter.ofPattern("EEEE, MMM d yyyy"))
         );
     }
+
+    private String formatHour12(int hour24) {
+        int hour12 = hour24 % 12;
+        if (hour12 == 0) hour12 = 12;
+
+        String ampm = (hour24 < 12) ? "AM" : "PM";
+        return hour12 + ":00 " + ampm;
+    }
+
 
     private int parseHour(String time) {
         try {
@@ -730,6 +744,7 @@ public class CalendarController {
     private void refresh() {
         buildCalendar();
         updateDayReminders();
+        loadUpcomingReminders();
         updateSelectedDateLabel();
     }
 }

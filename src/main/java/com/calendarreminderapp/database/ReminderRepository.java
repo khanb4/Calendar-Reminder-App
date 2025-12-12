@@ -60,6 +60,30 @@ public class ReminderRepository {
         }
         return list;
     }
+    // GET REMINDERS FOR MONTH (yyyy-MM-dd string range works lexicographically)
+    public List<Reminder> getRemindersForMonth(String username, YearMonth ym)
+            throws ExecutionException, InterruptedException {
+
+        String start = ym.atDay(1).toString();        // e.g. 2025-12-01
+        String end   = ym.atEndOfMonth().toString();  // e.g. 2025-12-31
+
+        Query query = remindersRef
+                .whereEqualTo("username", username)
+                .whereGreaterThanOrEqualTo("date", start)
+                .whereLessThanOrEqualTo("date", end)
+                .orderBy("date")
+                .orderBy("time");
+
+        QuerySnapshot snapshot = query.get().get();
+
+        List<Reminder> list = new ArrayList<>();
+        for (QueryDocumentSnapshot doc : snapshot.getDocuments()) {
+            Reminder r = doc.toObject(Reminder.class);
+            r.setId(doc.getId());
+            list.add(r);
+        }
+        return list;
+    }
 
     // GET UPCOMING REMINDERS
     public List<Reminder> getUpcomingReminders(String username)
