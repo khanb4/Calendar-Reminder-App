@@ -145,7 +145,7 @@ public class CalendarController {
 
         // IMPORTANT: Your populateForm() selects hm[0] directly.
         // If your stored times are like "7:04 AM" (no leading 0),
-        // then hours must be "1".."12" (not "01".."12").
+        // then hours must be "1"."12" (not "01"."12").
         for (int i = 1; i <= 12; i++) {
             hourCombo.getItems().add(String.valueOf(i));
         }

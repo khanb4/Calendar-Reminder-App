@@ -9,7 +9,7 @@
             stylesheets="@style.css"
             styleClass="root-pane">
 
-    <!-- ========== TOP BAR ========== -->
+    <!--  TOP BAR -->
     <top>
         <HBox spacing="10" alignment="CENTER_LEFT">
             <padding>
