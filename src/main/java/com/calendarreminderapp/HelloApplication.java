@@ -14,16 +14,14 @@ public class HelloApplication extends Application {
         stage.setTitle("Calendar Reminder App - Login");
         stage.setScene(scene);
 
-        // ✅ Polished window look
+        // NEW window look
         stage.setMinWidth(1000);
         stage.setMinHeight(700);
         stage.setWidth(1100);
         stage.setHeight(750);
         stage.centerOnScreen();
 
-        // Optional full-screen mode:
-        // stage.setFullScreen(true);
-        // stage.setFullScreenExitHint("");
+
 
         stage.show();
     }

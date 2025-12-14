@@ -39,8 +39,8 @@ public class LoginController {
         loginButton.setOnAction(e -> handleLogin());
         registerButton.setOnAction(e -> switchToRegister());
 
-        // Background image resize binding (visual-only)
-        // Scene is null during initialize(), so wait until it's attached.
+        // Background image resize bind
+
         bgImage.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null) {
                 bgImage.fitWidthProperty().bind(newScene.widthProperty());
@@ -80,7 +80,7 @@ public class LoginController {
 
             CalendarController controller = loader.getController();
 
-            // ensures FXML loads BEFORE controller logic runs
+            //  FXML loads BEFORE controller logic runs
             Platform.runLater(() -> controller.setCurrentUser(username));
 
             Stage stage = (Stage) loginButton.getScene().getWindow();

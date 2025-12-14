@@ -156,20 +156,13 @@ public class CalendarController {
         });
     }
 
-    /**
-     * ✅ UPDATED:
-     * - Fill items
-     * - Set DEFAULT selected values so the ComboBoxes are not blank
-     * - Keep formatting consistent with your Reminder time parsing
-     */
+
     private void setupTimeDropdowns() {
         hourCombo.getItems().clear();
         minuteCombo.getItems().clear();
         ampmCombo.getItems().clear();
 
-        // IMPORTANT: Your populateForm() selects hm[0] directly.
-        // If your stored times are like "7:04 AM" (no leading 0),
-        // then hours must be "1"."12" (not "01"."12").
+
         for (int i = 1; i <= 12; i++) {
             hourCombo.getItems().add(String.valueOf(i));
         }
@@ -180,7 +173,7 @@ public class CalendarController {
 
         ampmCombo.getItems().addAll("AM", "PM");
 
-        // ✅ DEFAULTS (this is what makes Hr/Min show like AM/PM does)
+
         hourCombo.setValue("1");
         minuteCombo.setValue("00");
         ampmCombo.setValue("AM");
@@ -248,9 +241,9 @@ public class CalendarController {
         refresh();
     }
 
-    // ============================================================
-    //   ADD OR EDIT Reminder (Unified Handler)
-    // ============================================================
+
+    //   ADD OR EDIT Reminder
+
     @FXML
     private void handleAddReminder() {
 
@@ -267,7 +260,7 @@ public class CalendarController {
         try {
             if (isEditing && selectedReminder != null) {
 
-                // ─────────────── UPDATE MODE ───────────────
+                // UPDATE MODE
                 reminderRepository.updateReminder(
                         selectedReminder,
                         selectedDate,
@@ -278,7 +271,7 @@ public class CalendarController {
 
             } else {
 
-                // ─────────────── ADD MODE ───────────────
+                // ADD MODE
                 reminderRepository.addReminder(
                         currentUser,
                         selectedDate,
@@ -304,9 +297,10 @@ public class CalendarController {
         }
     }
 
-    // ============================================================
+
     //   ENTER EDIT MODE
-    // ============================================================
+    //   BRUHHHH
+
     @FXML
     private void handleEditReminder() {
         if (selectedReminder == null) return;
@@ -356,9 +350,9 @@ public class CalendarController {
         }
     }
 
-    // ============================================================
+
     //   SUPPORT METHODS
-    // ============================================================
+
     private void populateForm(Reminder r) {
         titleField.setText(r.getTitle());
         descriptionArea.setText(r.getDescription() == null ? "" : r.getDescription());
@@ -376,16 +370,12 @@ public class CalendarController {
         }
     }
 
-    /**
-     * OPTIONAL BEHAVIOR:
-     * If you want Hr/Min to go back to defaults after saving, keep as-is below.
-     * If you want them blank, replace setValue(...) with clearSelection().
-     */
+
     private void clearForm() {
         titleField.clear();
         descriptionArea.clear();
 
-        // ✅ default back to a valid time so the fields never look empty
+        //  default back to a valid time
         hourCombo.setValue("1");
         minuteCombo.setValue("00");
         ampmCombo.setValue("AM");

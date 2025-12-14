@@ -30,7 +30,7 @@
                 </image>
             </ImageView>
 
-            <!-- OPTIONAL SOFT OVERLAY (keeps text readable) -->
+            <!-- OPTIONAL SOFT OVERLAY  -->
             <Region styleClass="bg-overlay"/>
 
             <!-- FOREGROUND CONTENT -->

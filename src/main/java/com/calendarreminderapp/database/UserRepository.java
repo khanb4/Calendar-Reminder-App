@@ -19,10 +19,7 @@ public class UserRepository {
         this.usersRef = db.collection("users");
     }
 
-    /**
-     * Create a new user in Firestore.
-     * Document ID is the username.
-     */
+
     public void createUser(String username, String password)
             throws ExecutionException, InterruptedException {
 
@@ -33,9 +30,7 @@ public class UserRepository {
         System.out.println("✅ User created/updated in Firestore: " + username);
     }
 
-    /**
-     * Validate the username and password against Firestore.
-     */
+
     public boolean validateUser(String username, String password)
             throws ExecutionException, InterruptedException {
 

@@ -14,9 +14,7 @@ public class Database {
 
     private static boolean initialized = false;
 
-    /**
-     * Initialize Firebase using serviceAccountKey.json in src/main/resources.
-     */
+
     public static void init() throws IOException {
         if (initialized) {
             return;
@@ -39,9 +37,7 @@ public class Database {
         }
     }
 
-    /**
-     * Get the Firestore instance. Initializes Firebase if needed.
-     */
+
     public static Firestore getFirestore() throws IOException {
         if (!initialized) {
             init();
@@ -49,7 +45,7 @@ public class Database {
         return FirestoreClient.getFirestore();
     }
 
-    // Optional quick test
+    // Optional quick test if anything go es wrong
     public static void main(String[] args) {
         try {
             Firestore db = Database.getFirestore();

@@ -13,7 +13,7 @@
             fx:controller="com.calendarreminderapp.controllers.HelpController"
             style="-fx-background-color:#EEF2F7;">
 
-    <!-- ================= HEADER ================= -->
+
     <top>
         <VBox spacing="8"
               BorderPane.alignment="CENTER"
@@ -29,7 +29,7 @@
         </VBox>
     </top>
 
-    <!-- ================= CONTENT ================= -->
+
     <center>
         <ScrollPane fitToWidth="true"
                     style="-fx-background-color:transparent;">
@@ -127,7 +127,7 @@
         </ScrollPane>
     </center>
 
-    <!-- ================= FOOTER ================= -->
+
     <bottom>
         <HBox alignment="CENTER"
               style="-fx-padding:28;">

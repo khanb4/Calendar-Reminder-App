@@ -62,7 +62,7 @@
                             <Label fx:id="selectedDateLabel" styleClass="bottom-pane-label"/>
                         </VBox>
 
-                        <!-- ===== REMINDER LISTS / EDIT BUTTONS ===== -->
+
                         <VBox spacing="10" prefWidth="450" maxWidth="450">
 
                             <HBox spacing="20">
@@ -101,7 +101,7 @@
                         </VBox>
                     </HBox>
 
-                    <!-- ========== ADD REMINDER FORM (MOVED INTO SCROLL) ========== -->
+
                     <VBox spacing="12">
 
                         <Label text="Add Reminder" styleClass="bottom-pane-label"/>

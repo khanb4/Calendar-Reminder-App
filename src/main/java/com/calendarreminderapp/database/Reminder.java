@@ -1,19 +1,16 @@
 package com.calendarreminderapp.database;
 
-/**
- * Firestore-friendly Reminder model.
- * Date is stored as ISO string "yyyy-MM-dd" so Firestore can serialize it.
- */
+
 public class Reminder {
 
-    private String id;          // Firestore document ID
+    private String id;
     private String username;
-    private String date;        // e.g. "2025-12-01"
+    private String date;
     private String title;
     private String description;
-    private String time;        // e.g. "03:15 PM"
+    private String time;
 
-    // REQUIRED no-arg constructor for Firestore
+
     public Reminder() {
     }
 
@@ -30,9 +27,9 @@ public class Reminder {
         this.time = time;
     }
 
-    // --------------------
+
     // Getters & Setters
-    // --------------------
+
 
     public String getId() {
         return id;

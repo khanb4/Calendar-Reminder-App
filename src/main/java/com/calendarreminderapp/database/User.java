@@ -5,7 +5,7 @@ public class User {
     private String username;
     private String password;
 
-    // Required by Firestore (no-arg constructor)
+    // Required by Firestore
     public User() {
     }
 

@@ -1,6 +1,4 @@
-/* ------------------------------------------
-   GLOBAL THEME — Pastel Light (Option B)
-   ------------------------------------------ */
+
 
 .root-pane {
     -fx-font-family: "SF Pro Text", "Segoe UI", Roboto, Arial;
@@ -79,7 +77,7 @@
 }
 
 /* ------------------------------------------
-   CALENDAR CELLS (Month/Week/Day)
+    (Month/Week/Day)
    ------------------------------------------ */
 
 .day-cell {
@@ -113,7 +111,7 @@
 }
 
 /* ------------------------------------------
-   LISTVIEW (Selected Day / Upcoming)
+    (Selected Day / Upcoming)
    ------------------------------------------ */
 
 .list-view {
@@ -141,7 +139,7 @@
 }
 
 /* ------------------------------------------
-   TEXT INPUTS (Title / Description)
+   (Title / Description)
    ------------------------------------------ */
 
 .text-field,
@@ -159,9 +157,7 @@
     -fx-border-color: #9ebfff;
 }
 
-/* ------------------------------------------
-   COMBOBOX — FIXED + PASTEL
-   ------------------------------------------ */
+
 
 .combo-box {
     -fx-background-color: #ffffff;
@@ -198,9 +194,7 @@
     -fx-background-color: transparent;
 }
 
-/* ------------------------------------------
-   SCROLLBAR (for Upcoming)
-   ------------------------------------------ */
+
 
 .scroll-bar:vertical .thumb {
     -fx-background-color: #c9d7f8;
@@ -211,9 +205,7 @@
     -fx-background-color: #b5c9f5;
 }
 
-/* ------------------------------------------
-   YEAR VIEW — Pastel Month Cards
-   ------------------------------------------ */
+
 
 .year-month-card {
     -fx-background-color: #ffffff;
@@ -315,7 +307,7 @@
 
 .button-primary,
 .button-secondary {
-    /* inherit from .button automatically, so nothing required */
+
 }
 
 .message-label {
@@ -343,9 +335,7 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 18, 0.20, 0, 4);
 }
 
-/* ------------------------------------------
-   LOGIN SPLIT LAYOUT (Visual only)
-   ------------------------------------------ */
+
 
 .login-shell {
     -fx-background-color: transparent;
@@ -367,7 +357,7 @@
     -fx-background-color: rgba(0,0,0,0.12);
 }
 
-/* Title/subtitle on left */
+
 .login-title {
     -fx-font-size: 26px;
     -fx-font-weight: 700;
@@ -380,9 +370,7 @@
     -fx-opacity: 0.85;
 }
 
-/* ------------------------------------------
-   Icon + Input field rows
-   ------------------------------------------ */
+
 
 .input-with-icon {
     -fx-background-color: #ffffff;
@@ -402,12 +390,12 @@
     -fx-padding: 8 6;
 }
 
-/* When focused, highlight the whole row */
+
 .input-with-icon:focused-within {
     -fx-border-color: #9ebfff;
 }
 
-/* message label spacing */
+
 .message-label {
     -fx-font-size: 12px;
     -fx-text-fill: #c0392b;
