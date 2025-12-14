@@ -21,9 +21,22 @@
         <StackPane AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0"
                    AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0">
 
+            <!-- BACKGROUND IMAGE -->
+            <ImageView fx:id="bgImage"
+                       preserveRatio="false"
+                       pickOnBounds="true">
+                <image>
+                    <Image url="@images/login-bg.png"/>
+                </image>
+            </ImageView>
+
+            <!-- OPTIONAL SOFT OVERLAY (keeps text readable) -->
+            <Region styleClass="bg-overlay"/>
+
+            <!-- FOREGROUND CONTENT -->
             <HBox styleClass="login-shell" alignment="CENTER">
 
-                <!-- LEFT SIDE (Logo + Title) -->
+                <!-- LEFT SIDE -->
                 <VBox styleClass="login-left" alignment="CENTER" spacing="14">
 
                     <ImageView fitWidth="110" fitHeight="110" preserveRatio="true">
@@ -33,29 +46,39 @@
                     </ImageView>
 
                     <VBox alignment="CENTER" spacing="6" maxWidth="340">
-                        <Label text="Welcome to the Calendar Reminder App" styleClass="login-title" wrapText="true" textAlignment="CENTER"/>
+                        <Label text="Welcome to the Calendar Reminder App"
+                               styleClass="login-title"
+                               wrapText="true"
+                               textAlignment="CENTER"/>
+
                         <Label text="Stay organized. Never miss an important moment."
-                               styleClass="login-subtitle" wrapText="true" textAlignment="CENTER"/>
+                               styleClass="login-subtitle"
+                               wrapText="true"
+                               textAlignment="CENTER"/>
                     </VBox>
 
                 </VBox>
 
-                <!-- VERTICAL DIVIDER -->
+                <!-- DIVIDER -->
                 <Region styleClass="login-divider"/>
 
-                <!-- RIGHT SIDE (Login Form) -->
+                <!-- RIGHT SIDE -->
                 <VBox styleClass="login-right" alignment="CENTER" spacing="14">
 
-                    <!-- top icon above fields -->
                     <ImageView fitWidth="70" fitHeight="70" preserveRatio="true">
                         <image>
                             <Image url="@images/userSS-icon.png"/>
                         </image>
                     </ImageView>
 
-                    <!-- Username row with icon -->
-                    <HBox styleClass="input-with-icon" alignment="CENTER_LEFT" spacing="10" maxWidth="360">
-                        <ImageView fitWidth="20" fitHeight="20" preserveRatio="true" styleClass="field-icon">
+                    <!-- USERNAME -->
+                    <HBox styleClass="input-with-icon"
+                          alignment="CENTER_LEFT"
+                          spacing="10"
+                          maxWidth="360">
+
+                        <ImageView fitWidth="20" fitHeight="20" preserveRatio="true"
+                                   styleClass="field-icon">
                             <image>
                                 <Image url="@images/user-icon.png"/>
                             </image>
@@ -67,9 +90,14 @@
                                    prefWidth="320"/>
                     </HBox>
 
-                    <!-- Password row with icon -->
-                    <HBox styleClass="input-with-icon" alignment="CENTER_LEFT" spacing="10" maxWidth="360">
-                        <ImageView fitWidth="20" fitHeight="20" preserveRatio="true" styleClass="field-icon">
+                    <!-- PASSWORD -->
+                    <HBox styleClass="input-with-icon"
+                          alignment="CENTER_LEFT"
+                          spacing="10"
+                          maxWidth="360">
+
+                        <ImageView fitWidth="20" fitHeight="20" preserveRatio="true"
+                                   styleClass="field-icon">
                             <image>
                                 <Image url="@images/lock-icon.png"/>
                             </image>
@@ -81,14 +109,21 @@
                                        prefWidth="320"/>
                     </HBox>
 
-                    <Button fx:id="loginButton" text="Log In" styleClass="button-primary" prefWidth="220"/>
-                    <Button fx:id="registerButton" text="Create Account" styleClass="button-secondary" prefWidth="220"/>
+                    <Button fx:id="loginButton"
+                            text="Log In"
+                            styleClass="button-primary"
+                            prefWidth="220"/>
+
+                    <Button fx:id="registerButton"
+                            text="Create Account"
+                            styleClass="button-secondary"
+                            prefWidth="220"/>
 
                     <Label text="New here? Create an account!"
                            styleClass="hint-label"/>
 
-                    <Label fx:id="messageLabel" styleClass="message-label"/>
-
+                    <Label fx:id="messageLabel"
+                           styleClass="message-label"/>
 
                 </VBox>
 

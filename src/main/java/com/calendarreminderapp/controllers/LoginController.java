@@ -7,12 +7,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 public class LoginController {
+
+    @FXML private ImageView bgImage;
 
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
@@ -35,6 +38,15 @@ public class LoginController {
 
         loginButton.setOnAction(e -> handleLogin());
         registerButton.setOnAction(e -> switchToRegister());
+
+        // Background image resize binding (visual-only)
+        // Scene is null during initialize(), so wait until it's attached.
+        bgImage.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                bgImage.fitWidthProperty().bind(newScene.widthProperty());
+                bgImage.fitHeightProperty().bind(newScene.heightProperty());
+            }
+        });
     }
 
     private void handleLogin() {
@@ -68,7 +80,7 @@ public class LoginController {
 
             CalendarController controller = loader.getController();
 
-            // ⭐ FIX: ensures FXML loads BEFORE controller logic runs
+            // ensures FXML loads BEFORE controller logic runs
             Platform.runLater(() -> controller.setCurrentUser(username));
 
             Stage stage = (Stage) loginButton.getScene().getWindow();
