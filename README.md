@@ -1,6 +1,5 @@
 # Calendar-Reminder-App
 We are using GitHub Projects for Scrum tracking.  
-[View our Sprint 1 Kanban Board](https://github.com/users/khanb4/projects)
+https://github.com/users/khanb4/projects
 
-View our Figma board
-https://www.figma.com/design/5oMY2p8wqP7UjmE6MF7nEX/Calendar-Reminder-App-Mockups---Group-3?node-id=0-1&t=9XvGQ5z8nAcR5sRm-1
+This app is fairly simple to use, all you have to do is create a user initially, and then after that you use your credantials to login. Once logged in you can use the help screen to guide you as to what you can do within the app.
