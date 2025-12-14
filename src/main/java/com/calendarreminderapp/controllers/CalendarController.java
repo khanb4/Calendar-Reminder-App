@@ -22,31 +22,50 @@ import java.util.List;
 
 public class CalendarController {
 
-    private enum ViewMode { YEAR, MONTH, WEEK, DAY }
+    private enum ViewMode {YEAR, MONTH, WEEK, DAY}
+
     private ViewMode currentViewMode = ViewMode.MONTH;
 
-    @FXML private Label monthYearLabel;
-    @FXML private GridPane calendarGrid;
-    @FXML private Label selectedDateLabel;
+    @FXML
+    private Label monthYearLabel;
+    @FXML
+    private GridPane calendarGrid;
+    @FXML
+    private Label selectedDateLabel;
 
-    @FXML private ListView<Reminder> dayRemindersList;
-    @FXML private ListView<Reminder> upcomingRemindersList;
+    @FXML
+    private ListView<Reminder> dayRemindersList;
+    @FXML
+    private ListView<Reminder> upcomingRemindersList;
 
-    @FXML private TextField titleField;
-    @FXML private TextArea descriptionArea;
-    @FXML private ComboBox<String> hourCombo;
-    @FXML private ComboBox<String> minuteCombo;
-    @FXML private ComboBox<String> ampmCombo;
+    @FXML
+    private TextField titleField;
+    @FXML
+    private TextArea descriptionArea;
+    @FXML
+    private ComboBox<String> hourCombo;
+    @FXML
+    private ComboBox<String> minuteCombo;
+    @FXML
+    private ComboBox<String> ampmCombo;
 
-    @FXML private Button addReminderButton;
-    @FXML private Button editReminderButton;
-    @FXML private Button deleteReminderButton;
-    @FXML private Button backButton;
+    @FXML
+    private Button addReminderButton;
+    @FXML
+    private Button editReminderButton;
+    @FXML
+    private Button deleteReminderButton;
+    @FXML
+    private Button backButton;
 
-    @FXML private Button monthViewButton;
-    @FXML private Button weekViewButton;
-    @FXML private Button dayViewButton;
-    @FXML private Button yearViewButton;
+    @FXML
+    private Button monthViewButton;
+    @FXML
+    private Button weekViewButton;
+    @FXML
+    private Button dayViewButton;
+    @FXML
+    private Button yearViewButton;
 
     private ReminderRepository reminderRepository;
     private String currentUser;
@@ -236,10 +255,10 @@ public class CalendarController {
     private void handleAddReminder() {
 
         String title = titleField.getText().trim();
-        String desc  = descriptionArea.getText().trim();
-        String hour  = hourCombo.getValue();
+        String desc = descriptionArea.getText().trim();
+        String hour = hourCombo.getValue();
         String minute = minuteCombo.getValue();
-        String ampm  = ampmCombo.getValue();
+        String ampm = ampmCombo.getValue();
 
         if (title.isEmpty() || hour == null || minute == null || ampm == null) return;
 
@@ -398,7 +417,6 @@ public class CalendarController {
             e.printStackTrace();
         }
     }
-
 
 
     private void buildCalendar() {
@@ -581,7 +599,8 @@ public class CalendarController {
                 lbl.setStyle("-fx-font-size: 10px; -fx-text-fill: #5F6368;");
                 cell.getChildren().add(lbl);
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         cell.setOnMouseClicked(e -> {
             selectedDate = date;
@@ -677,8 +696,6 @@ public class CalendarController {
     }
 
 
-
-
     private String formatHour12(int hour24) {
         int hour12 = hour24 % 12;
         if (hour12 == 0) hour12 = 12;
@@ -722,7 +739,8 @@ public class CalendarController {
                 dot.getStyleClass().add("calendar-reminder-icon");
                 cell.getChildren().add(dot);
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         cell.setOnMouseClicked(e -> handleDayClicked(date));
         return cell;
@@ -753,7 +771,8 @@ public class CalendarController {
                             if (date.equals(selectedDate)) {
                                 cell.getStyleClass().add("calendar-day-selected");
                             }
-                        } catch (Exception ignored) {}
+                        } catch (Exception ignored) {
+                        }
                     }
                 }
             }
@@ -762,14 +781,10 @@ public class CalendarController {
 
     private void updateMonthLabel() {
         switch (currentViewMode) {
-            case YEAR ->
-                    monthYearLabel.setText(String.valueOf(currentYearMonth.getYear()));
-            case MONTH ->
-                    monthYearLabel.setText(currentYearMonth.format(DateTimeFormatter.ofPattern("MMMM yyyy")));
-            case WEEK ->
-                    monthYearLabel.setText("Week View");
-            case DAY ->
-                    monthYearLabel.setText(selectedDate.format(DateTimeFormatter.ofPattern("EEE, MMM d, yyyy")));
+            case YEAR -> monthYearLabel.setText(String.valueOf(currentYearMonth.getYear()));
+            case MONTH -> monthYearLabel.setText(currentYearMonth.format(DateTimeFormatter.ofPattern("MMMM yyyy")));
+            case WEEK -> monthYearLabel.setText("Week View");
+            case DAY -> monthYearLabel.setText(selectedDate.format(DateTimeFormatter.ofPattern("EEE, MMM d, yyyy")));
         }
     }
 
@@ -782,5 +797,43 @@ public class CalendarController {
         updateDayReminders();
         loadUpcomingReminders();
         updateSelectedDateLabel();
+    }
+
+    @FXML
+    private void handleToday() {
+        selectedDate = LocalDate.now();
+        currentYearMonth = YearMonth.now();
+
+        // Ensure view stays consistent
+        if (currentViewMode == ViewMode.WEEK || currentViewMode == ViewMode.DAY) {
+            // selectedDate already set correctly
+        } else {
+            currentViewMode = ViewMode.MONTH;
+        }
+
+        refresh();
+    }
+
+    @FXML
+    private void openHelp() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/calendarreminderapp/help-view.fxml")
+            );
+            Parent root = loader.load();
+
+            Stage ownerStage = (Stage) calendarGrid.getScene().getWindow();
+
+            Stage helpStage = new Stage();
+            helpStage.initOwner(ownerStage);
+            helpStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
+            helpStage.setTitle("Help & User Guide");
+            helpStage.setScene(new Scene(root, 900, 650));
+            helpStage.setResizable(true);
+
+            helpStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

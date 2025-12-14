@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.calendarreminderapp.controllers.HelpController"
+            style="-fx-background-color:#EEF2F7;">
+
+    <!-- ================= HEADER ================= -->
+    <top>
+        <VBox spacing="8"
+              BorderPane.alignment="CENTER"
+              style="-fx-padding:28;
+                     -fx-background-color: linear-gradient(to right, #4FACFE, #00C6FB);">
+            <Label text="Help &amp; User Guide"
+                   style="-fx-font-size:28px;
+                          -fx-font-weight:bold;
+                          -fx-text-fill:white;"/>
+            <Label text="Master your calendar in seconds"
+                   style="-fx-text-fill:#EAF6FF;
+                          -fx-font-size:14px;"/>
+        </VBox>
+    </top>
+
+    <!-- ================= CONTENT ================= -->
+    <center>
+        <ScrollPane fitToWidth="true"
+                    style="-fx-background-color:transparent;">
+            <VBox spacing="22">
+                <padding>
+                    <Insets top="30" right="60" bottom="30" left="60"/>
+                </padding>
+
+                <!-- CARD TEMPLATE -->
+                <VBox spacing="10"
+                      style="-fx-background-color:white;
+                             -fx-padding:22;
+                             -fx-background-radius:16;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 16, 0, 0, 6);">
+                    <Label text="📅 Navigating the Calendar"
+                           style="-fx-font-size:18px;
+                                  -fx-font-weight:bold;
+                                  -fx-text-fill:#2C3E50;"/>
+                    <Label wrapText="true"
+                           style="-fx-text-fill:#555;"
+                           text="Switch between Month, Week, Day, and Year views using the buttons at the top. Use the arrows to move through time. Click Today to instantly jump back to the current date."/>
+                </VBox>
+
+                <VBox spacing="10"
+                      style="-fx-background-color:white;
+                             -fx-padding:22;
+                             -fx-background-radius:16;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 16, 0, 0, 6);">
+                    <Label text="👀 Viewing Reminders"
+                           style="-fx-font-size:18px;
+                                  -fx-font-weight:bold;
+                                  -fx-text-fill:#2C3E50;"/>
+                    <Label wrapText="true"
+                           style="-fx-text-fill:#555;"
+                           text="Click any date to view its reminders. The Selected Day panel shows reminders for the chosen date, while the Upcoming panel displays future reminders at a glance."/>
+                </VBox>
+
+                <VBox spacing="10"
+                      style="-fx-background-color:white;
+                             -fx-padding:22;
+                             -fx-background-radius:16;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 16, 0, 0, 6);">
+                    <Label text="➕ Adding a Reminder"
+                           style="-fx-font-size:18px;
+                                  -fx-font-weight:bold;
+                                  -fx-text-fill:#2C3E50;"/>
+                    <Label wrapText="true"
+                           style="-fx-text-fill:#555;"
+                           text="Select a date, enter a title and time in the Add Reminder section, and click Add. Your reminder will instantly appear on the calendar."/>
+                </VBox>
+
+                <VBox spacing="10"
+                      style="-fx-background-color:white;
+                             -fx-padding:22;
+                             -fx-background-radius:16;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 16, 0, 0, 6);">
+                    <Label text="✏️ Editing a Reminder"
+                           style="-fx-font-size:18px;
+                                  -fx-font-weight:bold;
+                                  -fx-text-fill:#2C3E50;"/>
+                    <Label wrapText="true"
+                           style="-fx-text-fill:#555;"
+                           text="Select an existing reminder from the Selected Day panel and click Edit Reminder to update its details."/>
+                </VBox>
+
+                <VBox spacing="10"
+                      style="-fx-background-color:white;
+                             -fx-padding:22;
+                             -fx-background-radius:16;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 16, 0, 0, 6);">
+                    <Label text="🗑 Deleting a Reminder"
+                           style="-fx-font-size:18px;
+                                  -fx-font-weight:bold;
+                                  -fx-text-fill:#2C3E50;"/>
+                    <Label wrapText="true"
+                           style="-fx-text-fill:#555;"
+                           text="Select a reminder and click Delete Reminder to permanently remove it from your calendar."/>
+                </VBox>
+
+                <VBox spacing="10"
+                      style="-fx-background-color:white;
+                             -fx-padding:22;
+                             -fx-background-radius:16;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 16, 0, 0, 6);">
+                    <Label text="💡 Pro Tips"
+                           style="-fx-font-size:18px;
+                                  -fx-font-weight:bold;
+                                  -fx-text-fill:#2C3E50;"/>
+                    <Label wrapText="true"
+                           style="-fx-text-fill:#555;"
+                           text="Use clear titles, double-check dates and times, and rely on the Today button whenever you feel lost in the calendar."/>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <!-- ================= FOOTER ================= -->
+    <bottom>
+        <HBox alignment="CENTER"
+              style="-fx-padding:28;">
+            <Button fx:id="backButton"
+                    text="← Back to Calendar"
+                    onAction="#goBack"
+                    style="-fx-padding:14 48;
+               -fx-font-size:15px;
+               -fx-font-weight:bold;
+               -fx-text-fill:white;
+               -fx-background-color:#4FACFE;
+               -fx-background-radius:30;"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

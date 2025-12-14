@@ -19,6 +19,7 @@
             <!-- Month navigation -->
             <Button text="◀" onAction="#handlePrevMonth"/>
             <Label fx:id="monthYearLabel" styleClass="title"/>
+            <Button text="Today" onAction="#handleToday"/>
             <Button text="▶" onAction="#handleNextMonth"/>
 
             <!-- Spacer -->
@@ -32,6 +33,9 @@
 
             <!-- Logout -->
             <Button fx:id="backButton" text="Logout" onAction="#handleLogout"/>
+
+            <Button text="Help" onAction="#openHelp"/>
+
         </HBox>
     </top>
 
