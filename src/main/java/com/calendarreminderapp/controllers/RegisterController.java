@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,6 +17,11 @@ import java.util.concurrent.ExecutionException;
 
 public class RegisterController {
 
+    /* ---------- Background ---------- */
+    @FXML
+    private ImageView bgImage;
+
+    /* ---------- Form Fields ---------- */
     @FXML
     private TextField usernameField;
 
@@ -48,6 +54,14 @@ public class RegisterController {
 
         registerButton.setOnAction(e -> registerUser());
         backToLoginButton.setOnAction(e -> goBackToLogin());
+
+        /* ---------- Background image resize (SAFE) ---------- */
+        bgImage.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                bgImage.fitWidthProperty().bind(newScene.widthProperty());
+                bgImage.fitHeightProperty().bind(newScene.heightProperty());
+            }
+        });
     }
 
     private void registerUser() {
@@ -85,8 +99,10 @@ public class RegisterController {
                     getClass().getResource("/com/calendarreminderapp/login.fxml")
             );
             Parent root = loader.load();
+
             Stage stage = (Stage) backToLoginButton.getScene().getWindow();
-            stage.setScene(new Scene(root, 420, 420));
+            stage.setScene(new Scene(root, 1200, 650));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
