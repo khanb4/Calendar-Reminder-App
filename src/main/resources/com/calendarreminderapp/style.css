@@ -3,9 +3,10 @@
    ------------------------------------------ */
 
 .root-pane {
-    -fx-background-color: #f6f7fb;
     -fx-font-family: "SF Pro Text", "Segoe UI", Roboto, Arial;
+    -fx-background-color: linear-gradient(to bottom, #f6f7fb, #eef3ff);
 }
+
 
 /* ------------------------------------------
    TEXT & LABELS
@@ -294,4 +295,122 @@
 .day-event-vsep {
     -fx-opacity: 0.4;
 }
+
+.subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555;
+    -fx-opacity: 0.85;
+}
+
+.hint-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #666;
+    -fx-opacity: 0.80;
+}
+
+
+.container {
+    -fx-padding: 30;
+}
+
+.button-primary,
+.button-secondary {
+    /* inherit from .button automatically, so nothing required */
+}
+
+.message-label {
+    -fx-text-fill: #c0392b; /* red-ish for errors */
+    -fx-font-size: 12px;
+}
+
+.title {
+    -fx-font-size: 22px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #333;
+    -fx-alignment: center;
+}
+
+.subtitle {
+    -fx-alignment: center;
+}
+
+.login-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-color: #e0e2e7;
+    -fx-padding: 36 40 36 40;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 18, 0.20, 0, 4);
+}
+
+/* ------------------------------------------
+   LOGIN SPLIT LAYOUT (Visual only)
+   ------------------------------------------ */
+
+.login-shell {
+    -fx-background-color: transparent;
+    -fx-padding: 40;
+    -fx-spacing: 40;
+}
+
+.login-left, .login-right {
+    -fx-pref-width: 420;
+    -fx-min-width: 360;
+    -fx-max-width: 520;
+}
+
+.login-divider {
+    -fx-pref-width: 1;
+    -fx-min-width: 1;
+    -fx-max-width: 1;
+    -fx-pref-height: 260;
+    -fx-background-color: rgba(0,0,0,0.12);
+}
+
+/* Title/subtitle on left */
+.login-title {
+    -fx-font-size: 26px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #2a2a2a;
+}
+
+.login-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555;
+    -fx-opacity: 0.85;
+}
+
+/* ------------------------------------------
+   Icon + Input field rows
+   ------------------------------------------ */
+
+.input-with-icon {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d3d7de;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 6 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 4, 0, 0, 1);
+}
+
+/* Remove TextField's own border/background so the row container controls the look */
+.input-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+    -fx-font-size: 14px;
+    -fx-padding: 8 6;
+}
+
+/* When focused, highlight the whole row */
+.input-with-icon:focused-within {
+    -fx-border-color: #9ebfff;
+}
+
+/* message label spacing */
+.message-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #c0392b;
+}
+
 
